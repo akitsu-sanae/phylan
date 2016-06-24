@@ -18,10 +18,6 @@ struct Cube {
     ~Cube();
     void draw() const;
 
-    const btRigidBody* body() const {
-        return m_body;
-    }
-
     constexpr static double cube_half_length = 0.2;
 private:
     btCollisionShape* m_shape;
