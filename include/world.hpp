@@ -11,13 +11,15 @@
 
 #include <memory>
 
-#include "cube.hpp"
 #include "camera.hpp"
 
 struct GLFWwindow;
 class btDiscreteDynamicsWorld;
 
 namespace ph {
+
+struct Cube;
+struct Ground;
 
 struct World {
     explicit World();
@@ -30,6 +32,7 @@ private:
     void init_bodies();
     GLFWwindow* m_window;
     std::unique_ptr<Cube> m_cube;
+    std::unique_ptr<Ground> m_ground;
     Camera m_camera;
 
     std::shared_ptr<btDiscreteDynamicsWorld> m_dynamics_world;

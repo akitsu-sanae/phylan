@@ -8,10 +8,21 @@
 #ifndef PHYLAN_GROUND_HPP
 #define PHYLAN_GROUND_HPP
 
+class btDiscreteDynamicsWorld;
+class btCollisionShape;
+class btRigidBody;
+
 namespace ph {
 
 struct Ground {
+    explicit Ground(btDiscreteDynamicsWorld&);
+    ~Ground();
+    void draw() const;
+
     static constexpr double height = 0.0;
+private:
+    btCollisionShape* m_shape;
+    btRigidBody* m_body;
 };
 
 }

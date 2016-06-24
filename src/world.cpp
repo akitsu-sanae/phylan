@@ -9,6 +9,8 @@
 #define GLFW_INCLUDE_GLU
 #include <GLFW/glfw3.h>
 #include "world.hpp"
+#include "cube.hpp"
+#include "ground.hpp"
 
 ph::World::World() {
     glfwInit();

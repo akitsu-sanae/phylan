@@ -8,38 +8,11 @@
 
 #include <LinearMath/btVector3.h>
 #include "world.hpp"
-
-static btRigidBody* create_rigid_body(
-        double mass,
-        btTransform const& trans,
-        btCollisionShape* shape,
-        int index) {
-    bool is_dynamic = mass != 0.0;
-    btVector3 inertia(0, 0, 0);
-    if (is_dynamic)
-        shape->calculateLocalInertia(mass, inertia);
-    auto motion_state = new btDefaultMotionState(trans);
-    btRigidBody::btRigidBodyConstructionInfo info(mass, motion_state, shape, inertia);
-    auto body = new btRigidBody(info);
-    body->setUserIndex(index);
-    return body;
-}
-
+#include "cube.hpp"
+#include "ground.hpp"
 
 void ph::World::init_bodies() {
-    btTransform trans;
-    trans.setIdentity();
-
-    const btScalar cube_half_length = 0.2;
-    const btScalar ground_height = 0.0;
-
-    auto ground_shape = new btBoxShape(
-            btVector3(20, cube_half_length, 20));
-    trans.setOrigin(btVector3(0, ground_height - cube_half_length, 0));
-
-    auto ground_body = create_rigid_body(0.0, trans, ground_shape, 0);
-    m_dynamics_world->addRigidBody(ground_body);
-
+    m_ground = std::make_unique<Ground>(*m_dynamics_world);
     m_cube = std::make_unique<Cube>(*m_dynamics_world);
 }
 
