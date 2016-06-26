@@ -18,6 +18,9 @@ ph::Camera::Camera() :
 {}
 
 void ph::Camera::update() {
+}
+
+void ph::Camera::look_at() const {
     gluLookAt(
             camera_position[0], camera_position[1], camera_position[2],
             target_position[0], target_position[1], target_position[2],

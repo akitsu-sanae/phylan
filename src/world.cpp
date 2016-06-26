@@ -25,29 +25,31 @@ ph::World::~World() {
 }
 
 bool ph::World::update() {
-        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-        glLoadIdentity();
 
-        int width, height;
-        glfwGetFramebufferSize( m_window, &width, &height );
-        glViewport( 0, 0, width, height );
-        gluPerspective( 30.0, (double)width / (double)height, 1.0, 100.0 );
-        glTranslated( 0.0, 0.0, -2.0 );
-        m_camera.update();
+    m_camera.update();
+    m_dynamics_world->stepSimulation(dt, 1);
+    draw();
 
-        static const GLfloat light_position[] = {0.0, 3.0, 5.0, 1.0};
-        glLightfv( GL_LIGHT0, GL_POSITION, light_position);
-
-        draw();
-
-        glfwSwapBuffers(m_window);
-        glfwPollEvents();
-
+    glfwPollEvents();
     return !glfwWindowShouldClose(m_window);
 }
 
 void ph::World::draw() const {
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    glLoadIdentity();
+
+    int width, height;
+    glfwGetFramebufferSize( m_window, &width, &height );
+    glViewport( 0, 0, width, height );
+    gluPerspective( 30.0, (double)width / (double)height, 1.0, 100.0 );
+    glTranslated( 0.0, 0.0, -2.0 );
+    m_camera.look_at();
+
+    static const GLfloat light_position[] = {0.0, 3.0, 5.0, 1.0};
+    glLightfv( GL_LIGHT0, GL_POSITION, light_position);
+
     m_cube->draw();
+    glfwSwapBuffers(m_window);
 }
 
 

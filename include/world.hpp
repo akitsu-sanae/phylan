@@ -26,6 +26,7 @@ struct World {
     ~World();
     bool update();
 private:
+    constexpr static double dt = 0.01;
     void draw() const;
     void init_gl();
     void init_bullet();
