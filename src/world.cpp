@@ -31,6 +31,13 @@ bool ph::World::update() {
     draw();
 
     glfwPollEvents();
+
+    if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS) {
+        on_mouse_clicked();
+        m_mouse_state.is_clicked_prev = true;
+    } else {
+        m_mouse_state.is_clicked_prev = false;
+    }
     return !glfwWindowShouldClose(m_window);
 }
 

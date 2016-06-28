@@ -26,11 +26,24 @@ struct World {
     ~World();
     bool update();
 private:
+    struct MouseState {
+        bool is_clicked_prev = false;
+        int x;
+        int y;
+    } m_mouse_state;
+
     constexpr static double dt = 0.01;
+
     void draw() const;
+
     void init_gl();
     void init_bullet();
     void init_bodies();
+
+private:
+    void on_mouse_clicked(); // slot
+
+private:
     GLFWwindow* m_window;
     std::unique_ptr<Cube> m_cube;
     std::unique_ptr<Ground> m_ground;
