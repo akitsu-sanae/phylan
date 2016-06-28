@@ -30,8 +30,8 @@ interface:
 implementions:
     struct MouseState {
         bool is_clicked_prev = false;
-        int x;
-        int y;
+        double x;
+        double y;
     } m_mouse_state;
 
     constexpr static double dt = 0.01;
@@ -43,7 +43,7 @@ implementions:
     void init_bodies();
 
 private slots:
-    void on_mouse_clicked(); // slot
+    void on_mouse_clicked();
 
 members:
     GLFWwindow* m_window;

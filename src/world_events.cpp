@@ -9,6 +9,6 @@
 #include "world.hpp"
 
 void ph::World::on_mouse_clicked() {
-    std::cout << "mouse clicked";
+    std::cout << "mouse clicked: " << m_mouse_state.x << ", " << m_mouse_state.y << std::endl;
 }
 

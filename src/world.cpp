@@ -38,6 +38,9 @@ bool ph::World::update() {
     } else {
         m_mouse_state.is_clicked_prev = false;
     }
+    glfwGetCursorPos(m_window, &m_mouse_state.x, &m_mouse_state.y);
+
+
     return !glfwWindowShouldClose(m_window);
 }
 
