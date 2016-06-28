@@ -11,6 +11,7 @@
 
 #include <memory>
 
+#include "base.hpp"
 #include "camera.hpp"
 
 struct GLFWwindow;
@@ -22,10 +23,11 @@ struct Cube;
 struct Ground;
 
 struct World {
+interface:
     explicit World();
     ~World();
     bool update();
-private:
+implementions:
     struct MouseState {
         bool is_clicked_prev = false;
         int x;
@@ -40,10 +42,10 @@ private:
     void init_bullet();
     void init_bodies();
 
-private:
+private slots:
     void on_mouse_clicked(); // slot
 
-private:
+members:
     GLFWwindow* m_window;
     std::unique_ptr<Cube> m_cube;
     std::unique_ptr<Ground> m_ground;
