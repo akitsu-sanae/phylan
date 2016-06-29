@@ -5,10 +5,15 @@
   file LICENSE or copy at http://www.boost.org/LICENSE_1_0.txt)
 ============================================================================*/
 
+#include <GLFW/glfw3.h>
 #include <iostream>
 #include "world.hpp"
 
 void ph::World::on_mouse_clicked() {
-    std::cout << "mouse clicked: " << m_mouse_state.x << ", " << m_mouse_state.y << std::endl;
+    double current_x, current_y;
+    glfwGetCursorPos(m_window, &current_x, &current_y);
+    double dx = current_x - m_mouse_state.x;
+    double dy = current_y - m_mouse_state.y;
+    m_camera.move(dx, dy);
 }
 

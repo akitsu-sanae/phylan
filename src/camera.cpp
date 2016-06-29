@@ -27,4 +27,9 @@ void ph::Camera::look_at() const {
             up_direction[0], up_direction[1], up_direction[2]);
 }
 
+void ph::Camera::move(double dx, double dy) {
+    camera_position[0] += dx;
+    camera_position[1] += dy;
+}
+
 

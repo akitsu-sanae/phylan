@@ -17,6 +17,7 @@ struct Camera {
     explicit Camera();
     void update();
     void look_at() const;
+    void move(double x, double y);
 protected:
     std::array<double, 3> camera_position;
     std::array<double, 3> target_position;
