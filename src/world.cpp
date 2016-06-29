@@ -58,6 +58,7 @@ void ph::World::draw() const {
     static const GLfloat light_position[] = {0.0, 3.0, 5.0, 1.0};
     glLightfv( GL_LIGHT0, GL_POSITION, light_position);
 
+    m_ground->draw();
     m_cube->draw();
     glfwSwapBuffers(m_window);
 }

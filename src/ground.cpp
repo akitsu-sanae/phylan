@@ -44,8 +44,27 @@ ph::Ground::~Ground() {
     delete m_body;
 }
 
+static const GLfloat ground_material[] = {
+    0.6, 0.2, 0.1, 1.0
+};
+
 void ph::Ground::draw() const {
-    ;
+    btScalar m[16];
+
+    auto motion_state = dynamic_cast<btDefaultMotionState*>(m_body->getMotionState());
+    motion_state->m_graphicsWorldTrans.getOpenGLMatrix(m);
+
+    glPushMatrix();
+    glMultMatrixf(m);
+
+    glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, ground_material);
+    glBegin(GL_QUADS);
+    glVertex3d(-2.0, -2.0, 0.0);
+    glVertex3d(-2.0, 2.0, 0.0);
+    glVertex3d(2.0, 2.0, 0.0);
+    glVertex3d(2.0, -2.0, 0.0);
+    glEnd();
+    glPopMatrix();
 }
 
 
