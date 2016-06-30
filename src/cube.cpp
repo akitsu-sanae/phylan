@@ -60,7 +60,7 @@ ph::Cube::Cube(btDiscreteDynamicsWorld& world) {
     btQuaternion qrot (0, 0, 0, 1);
     btTransform trans;
     trans.setIdentity();
-    trans.setOrigin(btVector3(0, Ground::height + 10.0 * cube_half_length, 0));
+    trans.setOrigin(btVector3(0, Ground::height + 10.0 + 10.0 * cube_half_length, 0));
     trans.setRotation(qrot);
 
     m_body = create_rigid_body(1.0, trans, m_shape, 0);
@@ -78,7 +78,13 @@ ph::Cube::~Cube() {
 }
 
 void ph::Cube::draw() const {
-    glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, cube_material );
+    btTransform trans;
+    m_body->getMotionState()->getWorldTransform(trans);
+
+    glPushMatrix();
+    glTranslated(trans.getOrigin().getX(), trans.getOrigin().getY(), trans.getOrigin().getZ());
+
+    glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, cube_material);
     glBegin( GL_QUADS );
     for (size_t i = 0; i < 6; ++i) {
         glNormal3dv( cube_normal[i] );// 法線ベクトルをキューブに当てる。
@@ -87,5 +93,6 @@ void ph::Cube::draw() const {
     }
     glEnd();
 
+    glPopMatrix();
 }
 
