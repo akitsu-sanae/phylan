@@ -19,7 +19,12 @@ struct Camera {
     void look_at() const;
     void move(double x, double y);
 protected:
-    std::array<double, 3> camera_position;
+    struct Origin {
+        double theta = 1.0;
+        double phi = 1.0;
+        double radius = 30.0;
+    };
+    Origin m_origin;
     std::array<double, 3> target_position;
     std::array<double, 3> up_direction;
 };
