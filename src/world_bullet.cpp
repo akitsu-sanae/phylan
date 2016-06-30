@@ -23,7 +23,7 @@ void ph::World::init_bullet() {
     auto overlapping_pair_cache = new btDbvtBroadphase();
     auto solver = new btSequentialImpulseConstraintSolver();
     m_dynamics_world = std::make_shared<btDiscreteDynamicsWorld>(dispatcher, overlapping_pair_cache, solver, config);
-    m_dynamics_world->setGravity(btVector3(0, -9.8, 0));
+    m_dynamics_world->setGravity(btVector3(0, -0.4, 0));
 
     init_bodies();
 }
