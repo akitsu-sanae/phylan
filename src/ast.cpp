@@ -1,5 +1,5 @@
 #include <picojson.h>
-#include <sstream>
+#include <fstream>
 #include "ast.hpp"
 
 static std::shared_ptr<ph::Element> loading(picojson::value const& v) {
@@ -30,21 +30,12 @@ static std::shared_ptr<ph::Element> loading(picojson::value const& v) {
 }
 
 std::shared_ptr<ph::Element> ph::Element::load(std::string const& filename) {
-    std::stringstream ss;
-    ss << R"(
-{
-    "op" : "plus",
-    "lhs" : 12,
-    "rhs" : {
-        "op" : "mult",
-        "lhs" : 43,
-        "rhs" : 12
-    }
-}
-)";
+	std::ifstream input(filename);
+	if (input.fail())
+		return nullptr;
 
     picojson::value v;
-    ss >> v;
+    input >> v;
     return loading(v);
 }
 
