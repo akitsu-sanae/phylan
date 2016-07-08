@@ -87,7 +87,7 @@ void ph::Cube::draw() const {
     glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, cube_material);
     glBegin( GL_QUADS );
     for (size_t i = 0; i < 6; ++i) {
-        glNormal3dv( cube_normal[i] );// 法線ベクトルをキューブに当てる。
+		glNormal3dv(cube_normal[i]);
         for (size_t j = 0; j < 4; ++j)
             glVertex3dv( cube_vertex[ cube_face[i][j] ] );
     }

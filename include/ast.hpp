@@ -9,6 +9,7 @@
 #define PHYLAN_AST_HPP
 
 #include <iostream>
+#include <string>
 #include <memory>
 
 namespace ph {
@@ -21,7 +22,8 @@ enum class NodeType {
 
 struct Element {
     virtual int value() const = 0;
-    static std::shared_ptr<Element> load(const char* filename);
+    static std::shared_ptr<Element> load(std::string const& filename);
+    struct invalid_loading_exception {};
 };
 
 template<NodeType type>
