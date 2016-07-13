@@ -138,6 +138,7 @@
     <ClInclude Include="include\cube.hpp" />
     <ClInclude Include="include\graphics.hpp" />
     <ClInclude Include="include\ground.hpp" />
+    <ClInclude Include="include\utility.hpp" />
     <ClInclude Include="include\world.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

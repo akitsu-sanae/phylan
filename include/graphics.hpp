@@ -8,6 +8,8 @@ file LICENSE or copy at http://www.boost.org/LICENSE_1_0.txt)
 #ifndef PHYLAN_GRAPHICS_HPP
 #define PHYLAN_GRAPHICS_HPP
 
+#include "utility.hpp"
+
 namespace ph {
 namespace graphics {
 
@@ -15,12 +17,6 @@ struct Color {
     unsigned char r;
     unsigned char g;
     unsigned char b;
-};
-
-struct Point {
-    double x;
-    double y;
-    double z;
 };
 
 struct Edge {

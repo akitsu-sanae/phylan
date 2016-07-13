@@ -10,15 +10,14 @@ file LICENSE or copy at http://www.boost.org/LICENSE_1_0.txt)
 #include <GLFW/glfw3.h>
 #include "graphics.hpp"
 
-using Point = ph::graphics::Point;
 using Face = ph::graphics::Face;
 using Color = ph::graphics::Color;
 
 static std::vector<Face> create_sphere_faces() {
-    auto mapped_position = [](int x, int y) -> Point {
+    auto mapped_position = [](int x, int y) -> ph::Point {
         double phi = 2.0 * 3.141592 * x / 16.0;
         double theta = 2.0 * 3.141592 * y / 16.0;
-        return Point {
+        return ph::Point {
             std::sin(theta)*std::cos(phi),
             std::sin(theta)*std::sin(phi),
             std::cos(theta)

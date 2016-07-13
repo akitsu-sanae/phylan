@@ -12,6 +12,8 @@
 #include <string>
 #include <memory>
 
+#include "utility.hpp"
+
 struct btCollisionShape;
 struct btRigidBody;
 
@@ -26,7 +28,8 @@ enum class NodeType {
 
 struct Element {
 public:
-    virtual ~Element() = default;
+    explicit Element(ph::Point const&);
+    virtual ~Element();
     virtual int value() const = 0;
 
     virtual void draw() const = 0;
@@ -46,7 +49,8 @@ struct Node;
 template<>
 struct Node<NodeType::Plus> final : public Element
 {
-    explicit Node(std::shared_ptr<Element> const& lhs, std::shared_ptr<Element> const& rhs) :
+    explicit Node(ph::Point const& pos, std::shared_ptr<Element> const& lhs, std::shared_ptr<Element> const& rhs) :
+        Element(pos),
         lhs(lhs),
         rhs(rhs)
     {}
@@ -65,7 +69,8 @@ private:
 template<>
 struct Node<NodeType::Mult> final : public Element
 {
-    explicit Node(std::shared_ptr<Element> const& lhs, std::shared_ptr<Element> const& rhs) :
+    explicit Node(ph::Point const& pos, std::shared_ptr<Element> const& lhs, std::shared_ptr<Element> const& rhs) :
+        Element(pos),
         lhs(lhs),
         rhs(rhs)
     {}
@@ -84,7 +89,8 @@ private:
 template<>
 struct Node<NodeType::Print> final : public Element
 {
-    explicit Node(std::shared_ptr<Element> const& val) :
+    explicit Node(ph::Point const& pos, std::shared_ptr<Element> const& val) :
+        Element(pos),
         val(val)
     {}
 
@@ -100,7 +106,8 @@ private:
 };
 
 struct Literal : public Element {
-    explicit Literal(int n) :
+    explicit Literal(ph::Point const& pos, int n) :
+        Element(pos),
         val(n)
     {}
 
