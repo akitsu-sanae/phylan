@@ -40,6 +40,7 @@
 [Rr]elease/
 
 *.VC.db
+*.opendb
 *.sdf
 *.vsp
 
