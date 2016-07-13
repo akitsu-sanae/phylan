@@ -12,6 +12,9 @@
 #include <string>
 #include <memory>
 
+struct btCollisionShape;
+struct btRigidBody;
+
 namespace ph {
 
 enum class NodeType {
@@ -20,10 +23,21 @@ enum class NodeType {
     Print
 };
 
+
 struct Element {
+public:
+    virtual ~Element() = default;
     virtual int value() const = 0;
+
+    virtual void draw() const = 0;
+    virtual void update() = 0;
+
+
     static std::shared_ptr<Element> load(std::string const& filename);
     struct invalid_loading_exception {};
+private:
+    btCollisionShape* m_shape = nullptr;
+    btRigidBody* m_body = nullptr;
 };
 
 template<NodeType type>
@@ -40,6 +54,9 @@ struct Node<NodeType::Plus> final : public Element
     int value() const override {
         return lhs->value() + rhs->value();
     }
+
+    void draw() const override;
+    void update() override;
 private:
     std::shared_ptr<Element> lhs;
     std::shared_ptr<Element> rhs;
@@ -56,6 +73,9 @@ struct Node<NodeType::Mult> final : public Element
     int value() const override {
         return lhs->value() * rhs->value();
     }
+
+    void draw() const override;
+    void update() override;
 private:
     std::shared_ptr<Element> lhs;
     std::shared_ptr<Element> rhs;
@@ -72,6 +92,9 @@ struct Node<NodeType::Print> final : public Element
         std::cout << val->value() << std::endl;
         return val->value();
     }
+
+    void draw() const override;
+    void update() override;
 private:
     std::shared_ptr<Element> val;
 };
@@ -85,6 +108,8 @@ struct Literal : public Element {
         return val;
     }
 
+    void draw() const override;
+    void update() override;
     int val;
 };
 

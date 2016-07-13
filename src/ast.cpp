@@ -1,3 +1,10 @@
+/*============================================================================
+Copyright (C) 2016 akitsu sanae
+https://github.com/akitsu-sanae/phylan
+Distributed under the Boost Software License, Version 1.0. (See accompanying
+file LICENSE or copy at http://www.boost.org/LICENSE_1_0.txt)
+============================================================================*/
+
 #include <picojson.h>
 #include <fstream>
 #include "ast.hpp"
@@ -38,5 +45,43 @@ std::shared_ptr<ph::Element> ph::Element::load(std::string const& filename) {
     input >> v;
     return loading(v);
 }
+
+
+void ph::Node<ph::NodeType::Plus>::draw() const {
+    // draw_sphere();
+    lhs->draw();
+    rhs->draw();
+}
+
+void ph::Node<ph::NodeType::Plus>::update() {
+    lhs->update();
+    rhs->update();
+}
+
+void ph::Node<ph::NodeType::Mult>::draw() const {
+    // draw_sphere();
+    lhs->draw();
+    rhs->draw();
+}
+
+void ph::Node<ph::NodeType::Mult>::update() {
+    lhs->update();
+    rhs->update();
+}
+
+void ph::Node<ph::NodeType::Print>::draw() const {
+    val->draw();
+}
+
+void ph::Node<ph::NodeType::Print>::update() {
+    val->update();
+}
+
+void ph::Literal::draw() const {
+}
+
+void ph::Literal::update() {
+}
+
 
 
