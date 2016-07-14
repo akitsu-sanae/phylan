@@ -6,6 +6,7 @@ file LICENSE or copy at http://www.boost.org/LICENSE_1_0.txt)
 ============================================================================*/
 
 #include <vector>
+#include <array>
 #include <cmath>
 #include <GLFW/glfw3.h>
 #include "graphics.hpp"
@@ -42,8 +43,10 @@ void ph::graphics::draw_sphere(Point const& pos, Color const& color) {
     auto faces = create_sphere_faces();
     glPushMatrix();
     glTranslated(pos.x, pos.y, pos.z);
+
+    std::array<GLfloat, 3> v = { color.r, color.g, color.b };
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, v.data());
     glBegin(GL_TRIANGLES);
-    glColor3ub(color.r, color.g, color.b);
     for (auto const& face : faces) {
         for (auto const& node : face.nodes) {
             glVertex3d(node.x, node.y, node.z);

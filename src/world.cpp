@@ -9,6 +9,7 @@
 #define GLFW_INCLUDE_GLU
 #include <GLFW/glfw3.h>
 #include "world.hpp"
+#include "ast.hpp"
 #include "cube.hpp"
 #include "ground.hpp"
 
@@ -18,6 +19,8 @@ ph::World::World() {
     glfwMakeContextCurrent(m_window);
     init_gl();
     init_bullet();
+    m_ast = ph::Element::load("./example/test.ph");
+    m_ast->regist(*this);
 }
 
 ph::World::~World() {
@@ -60,6 +63,7 @@ void ph::World::draw() const {
 
     m_ground->draw();
     m_cube->draw();
+    m_ast->draw();
     glfwSwapBuffers(m_window);
 }
 

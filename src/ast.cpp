@@ -10,12 +10,14 @@ file LICENSE or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #include <btBulletDynamicsCommon.h>
 #include "ast.hpp"
+#include "world.hpp"
+#include "graphics.hpp"
 
 static std::shared_ptr<ph::Element> loading(picojson::value const& v, ph::Point const& current_position) {
     auto next_position = ph::Point{
         current_position.x + double(std::rand() % 1000) / 10000.0,
-        current_position.y + double(std::rand() % 1000) / 10000.0,
-        current_position.z + 0.01
+        current_position.y - 0.5,
+        current_position.z + double(std::rand() % 1000) / 10000.0
     };
     if (v.is<double>())
         return std::make_shared<ph::Literal>(current_position, static_cast<int>(v.get<double>()));
@@ -65,7 +67,7 @@ std::shared_ptr<ph::Element> ph::Element::load(std::string const& filename) {
 
     picojson::value v;
     input >> v;
-    return loading(v, ph::Point{});
+    return loading(v, ph::Point{0.0, 10.0, 0.0});
 }
 
 ph::Element::Element(ph::Point const& position) {
@@ -89,7 +91,11 @@ ph::Element::~Element() {
 }
 
 void ph::Node<ph::NodeType::Plus>::draw() const {
-    // draw_sphere();
+    btTransform trans;
+    m_body->getMotionState()->getWorldTransform(trans);
+    ph::graphics::draw_sphere(
+        ph::Point::from_trans(trans),
+        ph::graphics::Color{0, 0, 255});
     lhs->draw();
     rhs->draw();
 }
@@ -99,10 +105,26 @@ void ph::Node<ph::NodeType::Plus>::update() {
     rhs->update();
 }
 
+void ph::Node<ph::NodeType::Plus>::regist(ph::World& world) {
+    world.dynamics_world()->addRigidBody(m_body);
+    lhs->regist(world);
+    rhs->regist(world);
+}
+
 void ph::Node<ph::NodeType::Mult>::draw() const {
-    // draw_sphere();
+    btTransform trans;
+    m_body->getMotionState()->getWorldTransform(trans);
+    ph::graphics::draw_sphere(
+        ph::Point::from_trans(trans),
+        ph::graphics::Color{ 0, 255, 0 });
     lhs->draw();
     rhs->draw();
+}
+
+void ph::Node<ph::NodeType::Mult>::regist(ph::World& world) {
+    world.dynamics_world()->addRigidBody(m_body);
+    lhs->regist(world);
+    rhs->regist(world);
 }
 
 void ph::Node<ph::NodeType::Mult>::update() {
@@ -111,7 +133,17 @@ void ph::Node<ph::NodeType::Mult>::update() {
 }
 
 void ph::Node<ph::NodeType::Print>::draw() const {
+    btTransform trans;
+    m_body->getMotionState()->getWorldTransform(trans);
+    ph::graphics::draw_sphere(
+        ph::Point::from_trans(trans),
+        ph::graphics::Color{ 255, 0, 0 });
     val->draw();
+}
+
+void ph::Node<ph::NodeType::Print>::regist(ph::World& world) {
+    world.dynamics_world()->addRigidBody(m_body);
+    val->regist(world);
 }
 
 void ph::Node<ph::NodeType::Print>::update() {
@@ -119,9 +151,18 @@ void ph::Node<ph::NodeType::Print>::update() {
 }
 
 void ph::Literal::draw() const {
+    btTransform trans;
+    m_body->getMotionState()->getWorldTransform(trans);
+    ph::graphics::draw_sphere(
+        ph::Point::from_trans(trans),
+        ph::graphics::Color{ 255, 255, 255 });
 }
 
 void ph::Literal::update() {
+}
+
+void ph::Literal::regist(ph::World& world) {
+    world.dynamics_world()->addRigidBody(m_body);
 }
 
 

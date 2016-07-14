@@ -19,6 +19,7 @@ class btDiscreteDynamicsWorld;
 
 namespace ph {
 
+struct Element;
 struct Cube;
 struct Ground;
 
@@ -27,6 +28,10 @@ interface:
     explicit World();
     ~World();
     bool update();
+
+    std::shared_ptr<btDiscreteDynamicsWorld> dynamics_world() {
+        return m_dynamics_world;
+    }
 implementions:
     struct MouseState {
         bool is_clicked_prev = false;
@@ -41,7 +46,6 @@ implementions:
     void init_gl();
     void init_bullet();
     void init_bodies();
-
 private slots:
     void on_mouse_clicked();
 
@@ -49,6 +53,7 @@ members:
     GLFWwindow* m_window;
     std::unique_ptr<Cube> m_cube;
     std::unique_ptr<Ground> m_ground;
+    std::shared_ptr<Element> m_ast;
     Camera m_camera;
 
     std::shared_ptr<btDiscreteDynamicsWorld> m_dynamics_world;

@@ -19,6 +19,8 @@ struct btRigidBody;
 
 namespace ph {
 
+struct World;
+
 enum class NodeType {
     Plus,
     Mult,
@@ -35,10 +37,11 @@ public:
     virtual void draw() const = 0;
     virtual void update() = 0;
 
+    virtual void regist(ph::World&) = 0;
 
     static std::shared_ptr<Element> load(std::string const& filename);
     struct invalid_loading_exception {};
-private:
+protected:
     btCollisionShape* m_shape = nullptr;
     btRigidBody* m_body = nullptr;
 };
@@ -61,6 +64,8 @@ struct Node<NodeType::Plus> final : public Element
 
     void draw() const override;
     void update() override;
+
+    void regist(ph::World&) override;
 private:
     std::shared_ptr<Element> lhs;
     std::shared_ptr<Element> rhs;
@@ -81,6 +86,8 @@ struct Node<NodeType::Mult> final : public Element
 
     void draw() const override;
     void update() override;
+
+    void regist(ph::World&) override;
 private:
     std::shared_ptr<Element> lhs;
     std::shared_ptr<Element> rhs;
@@ -101,6 +108,8 @@ struct Node<NodeType::Print> final : public Element
 
     void draw() const override;
     void update() override;
+
+    void regist(ph::World&) override;
 private:
     std::shared_ptr<Element> val;
 };
@@ -117,6 +126,8 @@ struct Literal : public Element {
 
     void draw() const override;
     void update() override;
+
+    void regist(ph::World&) override;
     int val;
 };
 
