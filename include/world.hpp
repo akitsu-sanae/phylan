@@ -21,7 +21,6 @@ class btSoftBodyWorldInfo;
 namespace ph {
 
 struct Element;
-struct Cube;
 struct Ground;
 
 struct World {
@@ -52,7 +51,6 @@ private slots:
 
 members:
     GLFWwindow* m_window;
-    std::unique_ptr<Cube> m_cube;
     std::unique_ptr<Ground> m_ground;
     std::shared_ptr<Element> m_ast;
     Camera m_camera;

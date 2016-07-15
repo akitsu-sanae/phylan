@@ -5,20 +5,18 @@
   file LICENSE or copy at http://www.boost.org/LICENSE_1_0.txt)
 ============================================================================*/
 
-
+#include <btBulletDynamicsCommon.h>
 #include <LinearMath/btVector3.h>
 #include <BulletSoftBody/btSoftRigidDynamicsWorld.h>
 #include <BulletSoftBody/btSoftBodyRigidBodyCollisionConfiguration.h>
 #include <BulletSoftBody/btSoftBodyHelpers.h>
-#include <BulletSoftBody\btSoftBody.h>
+#include <BulletSoftBody/btSoftBody.h>
 
 #include "world.hpp"
-#include "cube.hpp"
 #include "ground.hpp"
 
 void ph::World::init_bodies() {
     m_ground = std::make_unique<Ground>(*m_dynamics_world);
-    m_cube = std::make_unique<Cube>(*m_dynamics_world);
 }
 
 

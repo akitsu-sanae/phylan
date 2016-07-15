@@ -10,7 +10,6 @@
 #include <GLFW/glfw3.h>
 #include "world.hpp"
 #include "ast.hpp"
-#include "cube.hpp"
 #include "ground.hpp"
 
 ph::World::World() {
@@ -62,7 +61,6 @@ void ph::World::draw() const {
     glLightfv( GL_LIGHT0, GL_POSITION, light_position);
 
     m_ground->draw();
-    m_cube->draw();
     m_ast->draw();
     glfwSwapBuffers(m_window);
 }

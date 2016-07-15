@@ -6,8 +6,9 @@
 ============================================================================*/
 
 #include <GLFW/glfw3.h>
+#include <btBulletCollisionCommon.h>
+#include <BulletSoftBody/btSoftRigidDynamicsWorld.h>
 #include "ground.hpp"
-#include "cube.hpp"
 
 static btRigidBody* create_rigid_body(
         double mass,
@@ -29,9 +30,8 @@ ph::Ground::Ground(btDynamicsWorld& world) {
     btTransform trans;
     trans.setIdentity();
 
-    m_shape = new btBoxShape(
-            btVector3(20, Cube::cube_half_length, 20));
-    trans.setOrigin(btVector3(0, height - Cube::cube_half_length, 0));
+    m_shape = new btBoxShape(btVector3(20, 1, 20));
+    trans.setOrigin(btVector3(0, Ground::height, 0));
 
     m_body = create_rigid_body(0.0, trans, m_shape, 0);
     world.addRigidBody(m_body);
