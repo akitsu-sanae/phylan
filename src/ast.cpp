@@ -14,6 +14,12 @@ file LICENSE or copy at http://www.boost.org/LICENSE_1_0.txt)
 #include "world.hpp"
 #include "graphics.hpp"
 
+btVector3 ph::Element::position() const {
+    btTransform trans;
+    m_body->getMotionState()->getWorldTransform(trans);
+    return trans.getOrigin();
+}
+
 static std::shared_ptr<ph::Element> loading(picojson::value const& v, ph::Point const& current_position) {
     auto next_position = ph::Point{
         current_position.x + double(std::rand() % 1000) / 10000.0,

@@ -120,6 +120,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\rope.cpp" />
     <ClCompile Include="src\ast.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\graphics.cpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="include\camera.hpp" />
     <ClInclude Include="include\graphics.hpp" />
     <ClInclude Include="include\ground.hpp" />
+    <ClInclude Include="include\rope.hpp" />
     <ClInclude Include="include\utility.hpp" />
     <ClInclude Include="include\world.hpp" />
   </ItemGroup>

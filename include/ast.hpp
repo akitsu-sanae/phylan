@@ -39,6 +39,9 @@ public:
 
     virtual void regist(ph::World&) = 0;
 
+    btVector3 position() const;
+    btRigidBody* body() const { return m_body; }
+
     static std::shared_ptr<Element> load(std::string const& filename);
     struct invalid_loading_exception {};
 protected:
@@ -66,7 +69,6 @@ struct Node<NodeType::Plus> final : public Element
     void update() override;
 
     void regist(ph::World&) override;
-private:
     std::shared_ptr<Element> lhs;
     std::shared_ptr<Element> rhs;
 };
@@ -88,7 +90,6 @@ struct Node<NodeType::Mult> final : public Element
     void update() override;
 
     void regist(ph::World&) override;
-private:
     std::shared_ptr<Element> lhs;
     std::shared_ptr<Element> rhs;
 };
@@ -110,7 +111,6 @@ struct Node<NodeType::Print> final : public Element
     void update() override;
 
     void regist(ph::World&) override;
-private:
     std::shared_ptr<Element> val;
 };
 

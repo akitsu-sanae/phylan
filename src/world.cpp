@@ -13,6 +13,7 @@
 #include "graphics.hpp"
 #include "world.hpp"
 #include "ast.hpp"
+#include "rope.hpp"
 #include "ground.hpp"
 
 ph::World::World() {
@@ -23,9 +24,15 @@ ph::World::World() {
     init_bullet();
     m_ast = ph::Element::load("./example/test.ph");
     m_ast->regist(*this);
+    m_ropes = ph::Rope::set(m_ast, *m_dynamics_world_info);
+    m_ropes.push_back(std::make_shared<Rope>(*m_ast, *m_dynamics_world_info));
+    for (auto&& rope : m_ropes)
+        rope->regist(*this);
 }
 
 ph::World::~World() {
+    for (auto&& rope : m_ropes)
+        rope->remove(*this);
     glfwTerminate();
 }
 
@@ -65,6 +72,8 @@ void ph::World::draw() const {
 
     m_ground->draw();
     m_ast->draw();
+    for (auto const& rope : m_ropes)
+        rope->draw();
     glfwSwapBuffers(m_window);
 }
 

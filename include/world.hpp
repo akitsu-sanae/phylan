@@ -10,6 +10,7 @@
 #define PHYLAN_WORLD_HPP
 
 #include <memory>
+#include <vector>
 
 #include "base.hpp"
 #include "camera.hpp"
@@ -23,6 +24,7 @@ class btSoftBody;
 namespace ph {
 
 struct Element;
+struct Rope;
 struct Ground;
 
 struct World {
@@ -55,6 +57,7 @@ members:
     GLFWwindow* m_window;
     std::unique_ptr<Ground> m_ground;
     std::shared_ptr<Element> m_ast;
+    std::vector<std::shared_ptr<Rope>> m_ropes;
     Camera m_camera;
 
     std::shared_ptr<btSoftRigidDynamicsWorld> m_dynamics_world;
