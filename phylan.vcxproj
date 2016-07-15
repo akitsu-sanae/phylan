@@ -124,7 +124,6 @@
     <ClCompile Include="src\ast.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\graphics.cpp" />
-    <ClCompile Include="src\ground.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\world.cpp" />
     <ClCompile Include="src\world_bullet.cpp" />
@@ -136,7 +135,6 @@
     <ClInclude Include="include\base.hpp" />
     <ClInclude Include="include\camera.hpp" />
     <ClInclude Include="include\graphics.hpp" />
-    <ClInclude Include="include\ground.hpp" />
     <ClInclude Include="include\rope.hpp" />
     <ClInclude Include="include\utility.hpp" />
     <ClInclude Include="include\world.hpp" />

@@ -14,7 +14,6 @@
 #include "world.hpp"
 #include "ast.hpp"
 #include "rope.hpp"
-#include "ground.hpp"
 
 ph::World::World() {
     glfwInit();
@@ -70,7 +69,6 @@ void ph::World::draw() const {
     static const GLfloat light_position[] = {0.0, 3.0, 5.0, 1.0};
     glLightfv( GL_LIGHT0, GL_POSITION, light_position);
 
-    m_ground->draw();
     m_ast->draw();
     for (auto const& rope : m_ropes)
         rope->draw();

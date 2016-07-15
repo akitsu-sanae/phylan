@@ -25,7 +25,6 @@ namespace ph {
 
 struct Element;
 struct Rope;
-struct Ground;
 
 struct World {
 interface:
@@ -55,7 +54,6 @@ private slots:
 
 members:
     GLFWwindow* m_window;
-    std::unique_ptr<Ground> m_ground;
     std::shared_ptr<Element> m_ast;
     std::vector<std::shared_ptr<Rope>> m_ropes;
     Camera m_camera;

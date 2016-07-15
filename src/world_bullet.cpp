@@ -13,10 +13,8 @@
 #include <BulletSoftBody/btSoftBody.h>
 
 #include "world.hpp"
-#include "ground.hpp"
 
 void ph::World::init_bodies() {
-    m_ground = std::make_unique<Ground>(*m_dynamics_world);
 }
 
 
