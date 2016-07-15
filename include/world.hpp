@@ -16,7 +16,9 @@
 
 struct GLFWwindow;
 class btDynamicsWorld;
+class btSoftRigidDynamicsWorld;
 class btSoftBodyWorldInfo;
+class btSoftBody;
 
 namespace ph {
 
@@ -29,7 +31,7 @@ interface:
     ~World();
     bool update();
 
-    std::shared_ptr<btDynamicsWorld> dynamics_world() {
+    std::shared_ptr<btSoftRigidDynamicsWorld> dynamics_world() {
         return m_dynamics_world;
     }
 implementions:
@@ -55,7 +57,7 @@ members:
     std::shared_ptr<Element> m_ast;
     Camera m_camera;
 
-    std::shared_ptr<btDynamicsWorld> m_dynamics_world;
+    std::shared_ptr<btSoftRigidDynamicsWorld> m_dynamics_world;
     std::shared_ptr<btSoftBodyWorldInfo> m_dynamics_world_info;
 };
 

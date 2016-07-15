@@ -9,6 +9,7 @@ file LICENSE or copy at http://www.boost.org/LICENSE_1_0.txt)
 #include <fstream>
 
 #include <btBulletDynamicsCommon.h>
+#include <BulletSoftBody/btSoftRigidDynamicsWorld.h>
 #include "ast.hpp"
 #include "world.hpp"
 #include "graphics.hpp"

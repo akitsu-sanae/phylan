@@ -59,10 +59,10 @@ void ph::Ground::draw() const {
 
     glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, ground_material);
     glBegin(GL_QUADS);
-    glVertex3d(-2.0, 0.0, 2.0);
-    glVertex3d(-2.0, 0.0, -2.0);
-    glVertex3d(2.0, 0.0, -2.0);
-    glVertex3d(2.0, 0.0, 2.0);
+    glVertex3d(-20.0, height, 20.0);
+    glVertex3d(-20.0, height, -20.0);
+    glVertex3d(20.0, height, -20.0);
+    glVertex3d(20.0, height, 20.0);
     glEnd();
     glPopMatrix();
 }

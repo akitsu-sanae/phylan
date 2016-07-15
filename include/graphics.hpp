@@ -10,6 +10,8 @@ file LICENSE or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #include "utility.hpp"
 
+class btSoftBody;
+
 namespace ph {
 namespace graphics {
 
@@ -31,6 +33,7 @@ struct Face {
 };
 
 void draw_sphere(Point const&, Color const&);
+void draw_rope(btSoftBody const&);
 
 }
 }

@@ -8,6 +8,9 @@
 
 #define GLFW_INCLUDE_GLU
 #include <GLFW/glfw3.h>
+#include <BulletSoftBody/btSoftBody.h>
+#include <BulletSoftBody/btSoftRigidDynamicsWorld.h>
+#include "graphics.hpp"
 #include "world.hpp"
 #include "ast.hpp"
 #include "ground.hpp"

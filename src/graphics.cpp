@@ -40,7 +40,7 @@ static std::vector<Face> create_sphere_faces() {
 }
 
 void ph::graphics::draw_sphere(Point const& pos, Color const& color) {
-    auto faces = create_sphere_faces();
+    static auto faces = create_sphere_faces();
     glPushMatrix();
     glTranslated(pos.x, pos.y, pos.z);
 
@@ -54,4 +54,23 @@ void ph::graphics::draw_sphere(Point const& pos, Color const& color) {
     }
     glEnd();
     glPopMatrix();
+}
+
+#include <BulletSoftBody/btSoftBody.h>
+#include <iostream>
+
+void ph::graphics::draw_rope(btSoftBody const& body) {
+    if (body.m_faces.size() != 0) {
+        std::cerr << "invalid soft body" << std::endl;
+        std::abort();
+    }
+
+    std::array<GLfloat, 3> v = { 255, 255, 255};
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, v.data());
+    glBegin(GL_LINE_STRIP);
+    for (int i = 0; i < body.m_nodes.size(); i++) {
+        btSoftBody::Node const& node = body.m_nodes.at(i);
+        glVertex3f(node.m_x.x(), node.m_x.y(), node.m_x.z());
+    }
+    glEnd();
 }
