@@ -8,14 +8,14 @@
 #ifndef PHYLAN_GROUND_HPP
 #define PHYLAN_GROUND_HPP
 
-class btDiscreteDynamicsWorld;
+class btDynamicsWorld;
 class btCollisionShape;
 class btRigidBody;
 
 namespace ph {
 
 struct Ground {
-    explicit Ground(btDiscreteDynamicsWorld&);
+    explicit Ground(btDynamicsWorld&);
     ~Ground();
     void draw() const;
 

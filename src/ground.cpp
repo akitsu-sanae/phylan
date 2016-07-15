@@ -25,7 +25,7 @@ static btRigidBody* create_rigid_body(
     return body;
 }
 
-ph::Ground::Ground(btDiscreteDynamicsWorld& world) {
+ph::Ground::Ground(btDynamicsWorld& world) {
     btTransform trans;
     trans.setIdentity();
 

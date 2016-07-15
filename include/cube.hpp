@@ -14,7 +14,7 @@
 namespace ph {
 
 struct Cube {
-    explicit Cube(btDiscreteDynamicsWorld&);
+    explicit Cube(btDynamicsWorld&);
     ~Cube();
     void draw() const;
 

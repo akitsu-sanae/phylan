@@ -54,7 +54,7 @@ static const GLdouble cube_vertex[][3] = {
     { 0.0, 1.0, 1.0 }
 };
 
-ph::Cube::Cube(btDiscreteDynamicsWorld& world) {
+ph::Cube::Cube(btDynamicsWorld& world) {
     m_shape = new btBoxShape(
             btVector3(cube_half_length, cube_half_length, cube_half_length));
     btQuaternion qrot (0, 0, 0, 1);
