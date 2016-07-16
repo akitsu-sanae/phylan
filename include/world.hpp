@@ -18,7 +18,7 @@
 struct GLFWwindow;
 class btDynamicsWorld;
 class btSoftRigidDynamicsWorld;
-class btSoftBodyWorldInfo;
+struct btSoftBodyWorldInfo;
 class btSoftBody;
 
 namespace ph {

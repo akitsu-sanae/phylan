@@ -11,7 +11,7 @@ file LICENSE or copy at http://www.boost.org/LICENSE_1_0.txt)
 #include <vector>
 #include <memory>
 
-struct btSoftBody;
+class btSoftBody;
 struct btSoftBodyWorldInfo;
 
 namespace ph {

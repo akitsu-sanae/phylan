@@ -14,8 +14,8 @@
 
 #include "utility.hpp"
 
-struct btCollisionShape;
-struct btRigidBody;
+class btCollisionShape;
+class btRigidBody;
 
 namespace ph {
 

@@ -44,11 +44,11 @@ void ph::graphics::draw_sphere(Point const& pos, Color const& color) {
     glPushMatrix();
     glTranslated(pos.x, pos.y, pos.z);
 
-    std::array<GLfloat, 3> v = {
+    std::array<GLfloat, 3> v = {{
         static_cast<GLfloat>(color.r),
         static_cast<GLfloat>(color.g),
         static_cast<GLfloat>(color.b)
-    };
+    }};
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, v.data());
     glBegin(GL_TRIANGLES);
     for (auto const& face : faces) {
@@ -69,7 +69,7 @@ void ph::graphics::draw_rope(btSoftBody const& body) {
         std::abort();
     }
 
-    std::array<GLfloat, 3> v = { 255, 255, 255};
+    std::array<GLfloat, 3> v = {{ 255, 255, 255}};
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, v.data());
     glBegin(GL_LINE_STRIP);
     for (int i = 0; i < body.m_nodes.size(); i++) {
