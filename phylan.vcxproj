@@ -120,11 +120,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="include\rope.cpp" />
     <ClCompile Include="src\ast.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\graphics.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\rope.cpp" />
     <ClCompile Include="src\world.cpp" />
     <ClCompile Include="src\world_bullet.cpp" />
     <ClCompile Include="src\world_events.cpp" />

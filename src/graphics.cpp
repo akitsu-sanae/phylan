@@ -44,7 +44,11 @@ void ph::graphics::draw_sphere(Point const& pos, Color const& color) {
     glPushMatrix();
     glTranslated(pos.x, pos.y, pos.z);
 
-    std::array<GLfloat, 3> v = { color.r, color.g, color.b };
+    std::array<GLfloat, 3> v = {
+        static_cast<GLfloat>(color.r),
+        static_cast<GLfloat>(color.g),
+        static_cast<GLfloat>(color.b)
+    };
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, v.data());
     glBegin(GL_TRIANGLES);
     for (auto const& face : faces) {
