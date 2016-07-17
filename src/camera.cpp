@@ -30,9 +30,14 @@ void ph::Camera::look_at() const {
             up_direction[0], up_direction[1], up_direction[2]);
 }
 
-void ph::Camera::move(double dx, double dy) {
+void ph::Camera::move_angle(double dx, double dy) {
     m_origin.theta -= dx/100.0;
     m_origin.phi += dy/100.0;
+}
+
+void ph::Camera::move_target(double dx, double dy) {
+    target_position.at(0) -= dx;
+    target_position.at(1) += dy;
 }
 
 

@@ -45,9 +45,15 @@ bool ph::World::update() {
 
     if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS) {
         on_mouse_clicked();
-        m_mouse_state.is_clicked_prev = true;
+        m_mouse_state.is_left_clicked_prev = true;
     } else {
-        m_mouse_state.is_clicked_prev = false;
+        m_mouse_state.is_left_clicked_prev = false;
+    }
+    if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS) {
+        on_mouse_clicked();
+        m_mouse_state.is_right_clicked_prev = true;
+    } else {
+        m_mouse_state.is_right_clicked_prev = false;
     }
     glfwGetCursorPos(m_window, &m_mouse_state.x, &m_mouse_state.y);
 

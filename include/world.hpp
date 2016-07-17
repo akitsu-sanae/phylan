@@ -37,7 +37,8 @@ interface:
     }
 implementions:
     struct MouseState {
-        bool is_clicked_prev = false;
+        bool is_left_clicked_prev = false;
+        bool is_right_clicked_prev = false;
         double x;
         double y;
     } m_mouse_state;

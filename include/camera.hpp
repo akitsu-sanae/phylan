@@ -17,7 +17,8 @@ struct Camera {
     explicit Camera();
     void update();
     void look_at() const;
-    void move(double x, double y);
+    void move_angle(double x, double y);
+    void move_target(double x, double y);
 protected:
     struct Origin {
         double theta = 1.0;
