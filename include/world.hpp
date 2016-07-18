@@ -51,7 +51,10 @@ implementions:
     void init_bullet();
     void init_bodies();
 private slots:
+    void mouse_event();
     void on_mouse_clicked();
+
+    void key_event();
 
 members:
     GLFWwindow* m_window;
