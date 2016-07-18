@@ -15,23 +15,41 @@
 #include "ast.hpp"
 #include "rope.hpp"
 
+ph::World::Objects::Objects(ph::World& world) :
+    world(world)
+{
+    ast = ph::Element::load();
+    ast->regist(world);
+    ropes = ph::Rope::set(ast, *world.world_info());
+    ropes.push_back(std::make_shared<Rope>(*ast, *world.world_info()));
+    for (auto&& rope : ropes)
+        rope->regist(world);
+}
+
+ph::World::Objects::~Objects() {
+    for (auto&& rope : ropes)
+        rope->remove(world);
+}
+
+void ph::World::Objects::draw() const {
+    ast->draw();
+    for (auto const& rope : ropes)
+        rope->draw();
+}
+
+void ph::World::Objects::save() const {
+    ast->save();
+}
+
 ph::World::World() {
     glfwInit();
     m_window = glfwCreateWindow(640, 480, "iml", nullptr, nullptr);
     glfwMakeContextCurrent(m_window);
     init_gl();
     init_bullet();
-    m_ast = ph::Element::load("./example/test.ph");
-    m_ast->regist(*this);
-    m_ropes = ph::Rope::set(m_ast, *m_dynamics_world_info);
-    m_ropes.push_back(std::make_shared<Rope>(*m_ast, *m_dynamics_world_info));
-    for (auto&& rope : m_ropes)
-        rope->regist(*this);
 }
 
 ph::World::~World() {
-    for (auto&& rope : m_ropes)
-        rope->remove(*this);
     glfwTerminate();
 }
 
@@ -64,9 +82,8 @@ void ph::World::draw() const {
     static const GLfloat light_position[] = {0.0, 3.0, 5.0, 1.0};
     glLightfv( GL_LIGHT0, GL_POSITION, light_position);
 
-    m_ast->draw();
-    for (auto const& rope : m_ropes)
-        rope->draw();
+    if (m_objects)
+        m_objects->draw();
     glfwSwapBuffers(m_window);
 }
 

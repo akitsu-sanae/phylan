@@ -35,6 +35,9 @@ interface:
     std::shared_ptr<btSoftRigidDynamicsWorld> dynamics_world() {
         return m_dynamics_world;
     }
+    std::shared_ptr<btSoftBodyWorldInfo> world_info() {
+        return m_dynamics_world_info;
+    }
 implementions:
     struct MouseState {
         bool is_left_clicked_prev = false;
@@ -58,9 +61,21 @@ private slots:
 
 members:
     GLFWwindow* m_window;
-    std::shared_ptr<Element> m_ast;
-    std::vector<std::shared_ptr<Rope>> m_ropes;
     Camera m_camera;
+
+    struct Objects {
+        explicit Objects(ph::World&);
+        ~Objects();
+        void draw() const;
+        void save() const;
+        std::shared_ptr<Objects> load();
+    private:
+        ph::World& world;
+        std::shared_ptr<Element> ast;
+        std::vector<std::shared_ptr<Rope>> ropes;
+    };
+
+    std::shared_ptr<Objects> m_objects;
 
     std::shared_ptr<btSoftRigidDynamicsWorld> m_dynamics_world;
     std::shared_ptr<btSoftBodyWorldInfo> m_dynamics_world_info;

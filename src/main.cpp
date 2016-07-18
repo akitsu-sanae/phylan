@@ -12,8 +12,6 @@
 
 int main()
 {
-
-    std::cout << ph::Element::load("./example/test.ph")->value() << std::endl;
     ph::World world;
 
     while (world.update()) {
