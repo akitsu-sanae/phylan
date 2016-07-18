@@ -39,5 +39,7 @@ void ph::World::on_mouse_clicked() {
 }
 
 void ph::World::key_event() {
+    if (glfwGetKey(m_window, 'S') == GLFW_PRESS)
+        m_ast->save();
 }
 

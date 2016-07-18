@@ -44,6 +44,7 @@ public:
 
     static std::shared_ptr<Element> load(std::string const& filename);
     struct invalid_loading_exception {};
+    void save() const;
 protected:
     btCollisionShape* m_shape = nullptr;
     btRigidBody* m_body = nullptr;
