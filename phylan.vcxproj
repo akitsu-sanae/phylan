@@ -121,6 +121,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\ast.cpp" />
+    <ClCompile Include="src\ast_load.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\graphics.cpp" />
     <ClCompile Include="src\main.cpp" />
