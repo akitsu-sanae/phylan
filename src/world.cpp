@@ -24,6 +24,8 @@ ph::World::Objects::Objects(ph::World& world) :
     ropes.push_back(std::make_shared<Rope>(*ast, *world.world_info()));
     for (auto&& rope : ropes)
         rope->regist(world);
+
+    m_current_element = ast;
 }
 
 ph::World::Objects::~Objects() {
@@ -31,14 +33,44 @@ ph::World::Objects::~Objects() {
         rope->remove(world);
 }
 
+static void draw_cursor(std::shared_ptr<ph::Element> target) {
+    glPushMatrix();
+    auto pos = target->position();
+    glTranslated(pos.x(), pos.y(), pos.z());
+    glBegin(GL_LINE_STRIP);
+    for (int i = 0; i < 16; i++) {
+        double angle = 2.0*3.141592 * i / 16.0;
+        glVertex2d(std::cos(angle), std::sin(angle));
+    }
+    glEnd();
+    glPopMatrix();
+}
+
 void ph::World::Objects::draw() const {
     ast->draw();
     for (auto const& rope : ropes)
         rope->draw();
+    draw_cursor(m_current_element);
 }
 
 void ph::World::Objects::save() const {
     ast->save();
+}
+
+void ph::World::Objects::next() {
+    auto tmp = m_current_element->next();
+    if (tmp)
+        m_current_element = tmp;
+}
+void ph::World::Objects::prev() {
+    auto tmp = m_current_element->prev();
+    if (tmp)
+        m_current_element = tmp;
+}
+void ph::World::Objects::parent() {
+    auto tmp = m_current_element->parent();
+    if (tmp)
+        m_current_element = tmp;
 }
 
 ph::World::World() {

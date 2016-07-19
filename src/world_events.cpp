@@ -39,9 +39,17 @@ void ph::World::on_mouse_clicked() {
 }
 
 void ph::World::key_event() {
-    if (glfwGetKey(m_window, 'S') == GLFW_PRESS)
+    if (glfwGetKey(m_window, 'Z') == GLFW_PRESS)
         m_objects->save();
-    if (glfwGetKey(m_window, 'L') == GLFW_PRESS)
+    if (glfwGetKey(m_window, 'X') == GLFW_PRESS)
         m_objects = std::make_shared<Objects>(*this);
+
+    if (glfwGetKey(m_window, 'J') == GLFW_PRESS)
+        m_objects->next();
+    if (glfwGetKey(m_window, 'L') == GLFW_PRESS)
+        m_objects->prev();
+    if (glfwGetKey(m_window, 'I') == GLFW_PRESS)
+        m_objects->parent();
+
 }
 

@@ -69,10 +69,15 @@ members:
         void draw() const;
         void save() const;
         std::shared_ptr<Objects> load();
+
+        void next();
+        void prev();
+        void parent();
     private:
         ph::World& world;
         std::shared_ptr<Element> ast;
         std::vector<std::shared_ptr<Rope>> ropes;
+        std::shared_ptr<Element> m_current_element;
     };
 
     std::shared_ptr<Objects> m_objects;

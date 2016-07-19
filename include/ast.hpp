@@ -38,6 +38,9 @@ public:
     virtual void update() = 0;
 
     virtual void regist(ph::World&) = 0;
+    virtual std::shared_ptr<Element> const& next() const = 0;
+    virtual std::shared_ptr<Element> const& prev() const = 0;
+    virtual std::shared_ptr<Element> const& parent() const = 0;
 
     btVector3 position() const;
     btRigidBody* body() const { return m_body; }
@@ -70,6 +73,9 @@ struct Node<NodeType::Plus> final : public Element
     void update() override;
 
     void regist(ph::World&) override;
+    std::shared_ptr<Element> const& next() const override { return lhs; }
+    std::shared_ptr<Element> const& prev() const override { return rhs; }
+    std::shared_ptr<Element> const& parent() const override { return lhs; }
     std::shared_ptr<Element> lhs;
     std::shared_ptr<Element> rhs;
 };
@@ -91,6 +97,9 @@ struct Node<NodeType::Mult> final : public Element
     void update() override;
 
     void regist(ph::World&) override;
+    std::shared_ptr<Element> const& next() const override { return lhs; }
+    std::shared_ptr<Element> const& prev() const override { return rhs; }
+    std::shared_ptr<Element> const& parent() const override { return lhs; }
     std::shared_ptr<Element> lhs;
     std::shared_ptr<Element> rhs;
 };
@@ -112,6 +121,9 @@ struct Node<NodeType::Print> final : public Element
     void update() override;
 
     void regist(ph::World&) override;
+    std::shared_ptr<Element> const& next() const override { return val; }
+    std::shared_ptr<Element> const& prev() const override { return val; }
+    std::shared_ptr<Element> const& parent() const override { return val; }
     std::shared_ptr<Element> val;
 };
 
@@ -129,6 +141,9 @@ struct Literal : public Element {
     void update() override;
 
     void regist(ph::World&) override;
+    std::shared_ptr<Element> const& next() const override { return nullptr; }
+    std::shared_ptr<Element> const& prev() const override { return nullptr; }
+    std::shared_ptr<Element> const& parent() const override { return nullptr; }
     int val;
 };
 
