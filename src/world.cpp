@@ -75,7 +75,7 @@ void ph::World::Objects::parent() {
 
 ph::World::World() {
     glfwInit();
-    m_window = glfwCreateWindow(640, 480, "iml", nullptr, nullptr);
+    m_window = glfwCreateWindow(640, 480, "phylan", nullptr, nullptr);
     glfwMakeContextCurrent(m_window);
     init_gl();
     init_bullet();
