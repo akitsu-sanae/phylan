@@ -26,6 +26,8 @@ namespace ph {
 struct Element;
 struct Rope;
 
+struct Keyboard;
+
 struct World {
 interface:
     explicit World();
@@ -45,6 +47,8 @@ implementions:
         double x;
         double y;
     } m_mouse_state;
+
+    std::shared_ptr<Keyboard> m_keyboard;
 
     constexpr static double dt = 0.01;
 

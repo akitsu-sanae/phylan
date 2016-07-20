@@ -125,6 +125,7 @@
     <ClCompile Include="src\ast_save.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\graphics.cpp" />
+    <ClCompile Include="src\keyboard.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\rope.cpp" />
     <ClCompile Include="src\world.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="include\base.hpp" />
     <ClInclude Include="include\camera.hpp" />
     <ClInclude Include="include\graphics.hpp" />
+    <ClInclude Include="include\keyboard.hpp" />
     <ClInclude Include="include\rope.hpp" />
     <ClInclude Include="include\utility.hpp" />
     <ClInclude Include="include\world.hpp" />

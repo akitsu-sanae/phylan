@@ -12,6 +12,7 @@
 #include <BulletSoftBody/btSoftRigidDynamicsWorld.h>
 #include "graphics.hpp"
 #include "world.hpp"
+#include "keyboard.hpp"
 #include "ast.hpp"
 #include "rope.hpp"
 
@@ -77,6 +78,9 @@ ph::World::World() {
     glfwInit();
     m_window = glfwCreateWindow(640, 480, "phylan", nullptr, nullptr);
     glfwMakeContextCurrent(m_window);
+
+    m_keyboard = std::make_shared<Keyboard>(m_window);
+
     init_gl();
     init_bullet();
 }
@@ -92,6 +96,7 @@ bool ph::World::update() {
     draw();
 
     glfwPollEvents();
+    m_keyboard->update();
 
     mouse_event();
     key_event();

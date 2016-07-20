@@ -8,6 +8,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include "world.hpp"
+#include "keyboard.hpp"
 #include "ast.hpp"
 
 void ph::World::mouse_event() {
@@ -39,16 +40,16 @@ void ph::World::on_mouse_clicked() {
 }
 
 void ph::World::key_event() {
-    if (glfwGetKey(m_window, 'Z') == GLFW_PRESS)
+    if (m_keyboard->state(Key::Z) == KeyState::Push)
         m_objects->save();
-    if (glfwGetKey(m_window, 'X') == GLFW_PRESS)
+    if (m_keyboard->state(Key::X) == KeyState::Push)
         m_objects = std::make_shared<Objects>(*this);
 
-    if (glfwGetKey(m_window, 'J') == GLFW_PRESS)
+    if (m_keyboard->state(Key::J) == KeyState::Push)
         m_objects->next();
-    if (glfwGetKey(m_window, 'L') == GLFW_PRESS)
+    if (m_keyboard->state(Key::L) == KeyState::Push)
         m_objects->prev();
-    if (glfwGetKey(m_window, 'I') == GLFW_PRESS)
+    if (m_keyboard->state(Key::I) == KeyState::Push)
         m_objects->parent();
 
 }
