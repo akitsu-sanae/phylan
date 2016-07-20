@@ -27,6 +27,7 @@ struct Element;
 struct Rope;
 
 struct Keyboard;
+struct Mouse;
 
 struct World {
 interface:
@@ -41,14 +42,8 @@ interface:
         return m_dynamics_world_info;
     }
 implementions:
-    struct MouseState {
-        bool is_left_clicked_prev = false;
-        bool is_right_clicked_prev = false;
-        double x;
-        double y;
-    } m_mouse_state;
-
     std::shared_ptr<Keyboard> m_keyboard;
+    std::shared_ptr<Mouse> m_mouse;
 
     constexpr static double dt = 0.01;
 
@@ -59,7 +54,6 @@ implementions:
     void init_bodies();
 private slots:
     void mouse_event();
-    void on_mouse_clicked();
 
     void key_event();
 

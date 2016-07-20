@@ -13,6 +13,7 @@
 #include "graphics.hpp"
 #include "world.hpp"
 #include "keyboard.hpp"
+#include "mouse.hpp"
 #include "ast.hpp"
 #include "rope.hpp"
 
@@ -80,6 +81,7 @@ ph::World::World() {
     glfwMakeContextCurrent(m_window);
 
     m_keyboard = std::make_shared<Keyboard>(m_window);
+    m_mouse = std::make_shared<Mouse>(m_window);
 
     init_gl();
     init_bullet();
@@ -96,6 +98,7 @@ bool ph::World::update() {
     draw();
 
     glfwPollEvents();
+    m_mouse->update();
     m_keyboard->update();
 
     mouse_event();

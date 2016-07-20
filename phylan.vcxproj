@@ -127,6 +127,7 @@
     <ClCompile Include="src\graphics.cpp" />
     <ClCompile Include="src\keyboard.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\mouse.cpp" />
     <ClCompile Include="src\rope.cpp" />
     <ClCompile Include="src\world.cpp" />
     <ClCompile Include="src\world_bullet.cpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="include\camera.hpp" />
     <ClInclude Include="include\graphics.hpp" />
     <ClInclude Include="include\keyboard.hpp" />
+    <ClInclude Include="include\mouse.hpp" />
     <ClInclude Include="include\rope.hpp" />
     <ClInclude Include="include\utility.hpp" />
     <ClInclude Include="include\world.hpp" />
