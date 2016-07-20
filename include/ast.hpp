@@ -45,7 +45,7 @@ public:
     btVector3 position() const;
     btRigidBody* body() const { return m_body; }
 
-    static std::shared_ptr<Element> load();
+    static std::shared_ptr<Element> load(std::string const&);
     struct invalid_loading_exception {};
     void save() const;
 protected:

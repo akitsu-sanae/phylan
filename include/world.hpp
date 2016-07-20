@@ -25,13 +25,14 @@ namespace ph {
 
 struct Element;
 struct Rope;
+struct Model;
 
 struct Keyboard;
 struct Mouse;
 
 struct World {
 interface:
-    explicit World();
+    explicit World(std::string const& filename = "");
     ~World();
     bool update();
 
@@ -61,24 +62,7 @@ members:
     GLFWwindow* m_window;
     Camera m_camera;
 
-    struct Objects {
-        explicit Objects(ph::World&);
-        ~Objects();
-        void draw() const;
-        void save() const;
-        std::shared_ptr<Objects> load();
-
-        void next();
-        void prev();
-        void parent();
-    private:
-        ph::World& world;
-        std::shared_ptr<Element> ast;
-        std::vector<std::shared_ptr<Rope>> ropes;
-        std::shared_ptr<Element> m_current_element;
-    };
-
-    std::shared_ptr<Objects> m_objects;
+    std::shared_ptr<Model> m_model;
 
     std::shared_ptr<btSoftRigidDynamicsWorld> m_dynamics_world;
     std::shared_ptr<btSoftBodyWorldInfo> m_dynamics_world_info;

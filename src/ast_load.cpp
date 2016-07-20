@@ -45,10 +45,7 @@ static std::shared_ptr<ph::Element> read(picojson::value const& v, ph::Point con
     }
 }
 
-std::shared_ptr<ph::Element> ph::Element::load() {
-    std::string filename;
-    std::cout << "filename? ";
-    std::cin >> filename;
+std::shared_ptr<ph::Element> ph::Element::load(std::string const& filename) {
     std::ifstream input(filename);
     if (input.fail())
         return nullptr;

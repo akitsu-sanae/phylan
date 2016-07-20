@@ -10,11 +10,15 @@
 #include "ast.hpp"
 #include <iostream>
 
-int main()
+int main(int argc, char* argv[])
 {
-    ph::World world;
+    std::shared_ptr<ph::World> world;
+    if (argc == 2)
+        world = std::make_shared<ph::World>(argv[1]);
+    else
+        world = std::make_shared<ph::World>();
 
-    while (world.update()) {
+    while (world->update()) {
         ;
     }
 }
