@@ -33,6 +33,7 @@ ph::World::World(std::string const& filename) {
 }
 
 ph::World::~World() {
+    m_model.reset();
     glfwTerminate();
 }
 

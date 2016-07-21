@@ -38,6 +38,7 @@ public:
     virtual void update() = 0;
 
     virtual void regist(ph::World&) = 0;
+    virtual void remove(ph::World&) = 0;
     virtual std::shared_ptr<Element> const& next() const = 0;
     virtual std::shared_ptr<Element> const& prev() const = 0;
     virtual std::shared_ptr<Element> const& parent() const = 0;
@@ -73,6 +74,7 @@ struct Node<NodeType::Plus> final : public Element
     void update() override;
 
     void regist(ph::World&) override;
+    void remove(ph::World&) override;
     std::shared_ptr<Element> const& next() const override { return lhs; }
     std::shared_ptr<Element> const& prev() const override { return rhs; }
     std::shared_ptr<Element> const& parent() const override { return lhs; }
@@ -97,6 +99,7 @@ struct Node<NodeType::Mult> final : public Element
     void update() override;
 
     void regist(ph::World&) override;
+    void remove(ph::World&) override;
     std::shared_ptr<Element> const& next() const override { return lhs; }
     std::shared_ptr<Element> const& prev() const override { return rhs; }
     std::shared_ptr<Element> const& parent() const override { return lhs; }
@@ -121,6 +124,7 @@ struct Node<NodeType::Print> final : public Element
     void update() override;
 
     void regist(ph::World&) override;
+    void remove(ph::World&) override;
     std::shared_ptr<Element> const& next() const override { return val; }
     std::shared_ptr<Element> const& prev() const override { return val; }
     std::shared_ptr<Element> const& parent() const override { return val; }
@@ -141,6 +145,7 @@ struct Literal : public Element {
     void update() override;
 
     void regist(ph::World&) override;
+    void remove(ph::World&) override;
     std::shared_ptr<Element> const& next() const override { return nullptr; }
     std::shared_ptr<Element> const& prev() const override { return nullptr; }
     std::shared_ptr<Element> const& parent() const override { return nullptr; }

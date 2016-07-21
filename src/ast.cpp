@@ -73,6 +73,12 @@ void ph::Node<ph::NodeType::Plus>::regist(ph::World& world) {
     rhs->regist(world);
 }
 
+void ph::Node<ph::NodeType::Plus>::remove(ph::World& world) {
+    world.dynamics_world()->removeRigidBody(m_body);
+    lhs->remove(world);
+    rhs->remove(world);
+}
+
 void ph::Node<ph::NodeType::Mult>::draw() const {
     btTransform trans;
     m_body->getMotionState()->getWorldTransform(trans);
@@ -87,6 +93,11 @@ void ph::Node<ph::NodeType::Mult>::regist(ph::World& world) {
     world.dynamics_world()->addRigidBody(m_body);
     lhs->regist(world);
     rhs->regist(world);
+}
+void ph::Node<ph::NodeType::Mult>::remove(ph::World& world) {
+    world.dynamics_world()->removeRigidBody(m_body);
+    lhs->remove(world);
+    rhs->remove(world);
 }
 
 void ph::Node<ph::NodeType::Mult>::update() {
@@ -108,6 +119,11 @@ void ph::Node<ph::NodeType::Print>::regist(ph::World& world) {
     val->regist(world);
 }
 
+void ph::Node<ph::NodeType::Print>::remove(ph::World& world) {
+    world.dynamics_world()->removeRigidBody(m_body);
+    val->remove(world);
+}
+
 void ph::Node<ph::NodeType::Print>::update() {
     val->update();
 }
@@ -125,6 +141,10 @@ void ph::Literal::update() {
 
 void ph::Literal::regist(ph::World& world) {
     world.dynamics_world()->addRigidBody(m_body);
+}
+
+void ph::Literal::remove(ph::World& world) {
+    world.dynamics_world()->removeRigidBody(m_body);
 }
 
 

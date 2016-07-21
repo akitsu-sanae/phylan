@@ -27,6 +27,7 @@ ph::Model::Model(ph::World& world, std::string const& filename) :
 ph::Model::~Model() {
     for (auto&& rope : m_ropes)
         rope->remove(m_world);
+    m_ast->remove(m_world);
 }
 
 static void draw_cursor(std::shared_ptr<ph::Element> const& target) {
