@@ -147,5 +147,20 @@ void ph::Literal::remove(ph::World& world) {
     world.dynamics_world()->removeRigidBody(m_body);
 }
 
+void ph::Undefined::draw() const {
+    btTransform trans;
+    m_body->getMotionState()->getWorldTransform(trans);
+    ph::graphics::draw_sphere(
+        ph::Point::from_trans(trans),
+        ph::graphics::Color{ 255, 255, 255 });
+}
+
+void ph::Undefined::regist(ph::World& world) {
+    world.dynamics_world()->addRigidBody(m_body);
+}
+
+void ph::Undefined::remove(ph::World& world) {
+    world.dynamics_world()->removeRigidBody(m_body);
+}
 
 

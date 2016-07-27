@@ -52,8 +52,10 @@ public:
     btRigidBody* body() const { return m_body; }
 
     static std::shared_ptr<Element> load(std::string const&);
-    struct invalid_loading_exception {};
     void save() const;
+
+    struct invalid_loading_exception {};
+    struct invalid_execution_exception {};
 protected:
     std::shared_ptr<Element> m_parent;
     btCollisionShape* m_shape = nullptr;
@@ -149,6 +151,21 @@ struct Literal : public Element {
     int val;
 };
 
+struct Undefined : public Element {
+    using Element::Element;
+
+    int value() const override {
+        throw invalid_execution_exception{};
+    }
+
+    void draw() const override;
+    void update() override {}
+
+    void regist(ph::World&) override;
+    void remove(ph::World&) override;
+    std::shared_ptr<Element> next() const override { return nullptr; }
+    std::shared_ptr<Element> prev() const override { return nullptr; }
+};
 
 }
 
