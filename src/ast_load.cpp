@@ -11,38 +11,39 @@ file LICENSE or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #include "ast.hpp"
 
-static std::shared_ptr<ph::Element> read(picojson::value const& v, ph::Point const& current_position) {
+static std::shared_ptr<ph::Element> read(picojson::value const& v, ph::Point const& current_position, std::shared_ptr<ph::Element> const& parent) {
     auto next_position = ph::Point{
-        current_position.x + double(std::rand() % 1000) / 10000.0,
+        current_position.x + double(std::rand() % 1000) / 100000.0,
         current_position.y - 0.5,
-        current_position.z + double(std::rand() % 1000) / 10000.0
+        current_position.z + double(std::rand() % 1000) / 100000.0
     };
+    std::shared_ptr<ph::Element> element;
     if (v.is<double>())
-        return std::make_shared<ph::Literal>(current_position, static_cast<int>(v.get<double>()));
-    if (!v.is<picojson::object>())
-        return std::make_shared<ph::Literal>(ph::Point{}, 42);
-    auto& obj = v.get<picojson::object>();
-    auto op = obj.find("op")->second.get<std::string>();
-    if (op == "plus") {
-        return std::make_shared<ph::Node<ph::NodeType::Plus>>(
-            current_position,
-            read(obj.at("lhs"), next_position),
-            read(obj.at("rhs"), next_position)
-            );
-    } if (op == "mult") {
-        return std::make_shared<ph::Node<ph::NodeType::Mult>>(
-            current_position,
-            read(obj.at("lhs"), next_position),
-            read(obj.at("rhs"), next_position)
-            );
-    } if (op == "print") {
-        return std::make_shared<ph::Node<ph::NodeType::Print>>(
-            current_position,
-            read(obj.at("val"), next_position)
-            );
-    } else {
+        element = std::make_shared<ph::Literal>(current_position, static_cast<int>(v.get<double>()));
+    else if (v.is<picojson::object>()){
+        auto& obj = v.get<picojson::object>();
+        auto op = obj.find("op")->second.get<std::string>();
+        if (op == "plus") {
+            auto plus = std::make_shared<ph::Node<ph::NodeType::Plus>>(current_position);
+            plus->lhs = read(obj.at("lhs"), next_position, plus);
+            plus->rhs = read(obj.at("rhs"), next_position, plus);
+            element = plus;
+        } else if (op == "mult") {
+            auto mult = std::make_shared<ph::Node<ph::NodeType::Mult>>(current_position);
+            mult->lhs = read(obj.at("lhs"), next_position, mult);
+            mult->rhs = read(obj.at("rhs"), next_position, mult);
+            element = mult;
+        } else if (op == "print") {
+            auto print = std::make_shared<ph::Node<ph::NodeType::Print>>(current_position);
+            print->val = read(obj.at("val"), next_position, print);
+            element = print;
+        } else {
+            throw ph::Element::invalid_loading_exception{};
+        }
+    } else
         throw ph::Element::invalid_loading_exception{};
-    }
+    element->parent(parent);
+    return element;
 }
 
 std::shared_ptr<ph::Element> ph::Element::load(std::string const& filename) {
@@ -52,5 +53,5 @@ std::shared_ptr<ph::Element> ph::Element::load(std::string const& filename) {
 
     picojson::value v;
     input >> v;
-    return read(v, ph::Point{ 0.0, 10.0, 0.0 });
+    return read(v, ph::Point{ 0.0, 10.0, 0.0 }, nullptr);
 }

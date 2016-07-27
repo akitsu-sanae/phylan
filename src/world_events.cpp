@@ -29,12 +29,12 @@ void ph::World::key_event() {
         std::cin >> filename;
         m_model = std::make_shared<Model>(*this, filename);
     }
-    if (m_keyboard->state(Key::J) == KeyState::Push)
-        m_model->selected_node() = m_model->selected_node()->next();
-    if (m_keyboard->state(Key::L) == KeyState::Push)
-        m_model->selected_node() = m_model->selected_node()->prev();
-    if (m_keyboard->state(Key::I) == KeyState::Push)
-        m_model->selected_node() = m_model->selected_node()->parent();
 
+    if (m_keyboard->state(Key::J) == KeyState::Push)
+        m_model->selected_element(m_model->selected_element()->next());
+    if (m_keyboard->state(Key::L) == KeyState::Push)
+        m_model->selected_element(m_model->selected_element()->prev());
+    if (m_keyboard->state(Key::I) == KeyState::Push)
+        m_model->selected_element(m_model->selected_element()->parent());
 }
 

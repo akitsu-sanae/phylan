@@ -39,9 +39,14 @@ public:
 
     virtual void regist(ph::World&) = 0;
     virtual void remove(ph::World&) = 0;
-    virtual std::shared_ptr<Element> const& next() const = 0;
-    virtual std::shared_ptr<Element> const& prev() const = 0;
-    virtual std::shared_ptr<Element> const& parent() const = 0;
+    virtual std::shared_ptr<Element> next() const = 0;
+    virtual std::shared_ptr<Element> prev() const = 0;
+    std::shared_ptr<Element> const& parent() const {
+        return m_parent;
+    }
+    void parent(std::shared_ptr<Element> const& p) {
+        m_parent = p;
+    }
 
     btVector3 position() const;
     btRigidBody* body() const { return m_body; }
@@ -50,6 +55,7 @@ public:
     struct invalid_loading_exception {};
     void save() const;
 protected:
+    std::shared_ptr<Element> m_parent;
     btCollisionShape* m_shape = nullptr;
     btRigidBody* m_body = nullptr;
 };
@@ -60,10 +66,8 @@ struct Node;
 template<>
 struct Node<NodeType::Plus> final : public Element
 {
-    explicit Node(ph::Point const& pos, std::shared_ptr<Element> const& lhs, std::shared_ptr<Element> const& rhs) :
-        Element(pos),
-        lhs(lhs),
-        rhs(rhs)
+    explicit Node(ph::Point const& pos) :
+        Element(pos)
     {}
 
     int value() const override {
@@ -75,9 +79,8 @@ struct Node<NodeType::Plus> final : public Element
 
     void regist(ph::World&) override;
     void remove(ph::World&) override;
-    std::shared_ptr<Element> const& next() const override { return lhs; }
-    std::shared_ptr<Element> const& prev() const override { return rhs; }
-    std::shared_ptr<Element> const& parent() const override { return lhs; }
+    std::shared_ptr<Element> next() const override { return lhs; }
+    std::shared_ptr<Element> prev() const override { return rhs; }
     std::shared_ptr<Element> lhs;
     std::shared_ptr<Element> rhs;
 };
@@ -85,10 +88,8 @@ struct Node<NodeType::Plus> final : public Element
 template<>
 struct Node<NodeType::Mult> final : public Element
 {
-    explicit Node(ph::Point const& pos, std::shared_ptr<Element> const& lhs, std::shared_ptr<Element> const& rhs) :
-        Element(pos),
-        lhs(lhs),
-        rhs(rhs)
+    explicit Node(ph::Point const& pos) :
+        Element(pos)
     {}
 
     int value() const override {
@@ -100,9 +101,8 @@ struct Node<NodeType::Mult> final : public Element
 
     void regist(ph::World&) override;
     void remove(ph::World&) override;
-    std::shared_ptr<Element> const& next() const override { return lhs; }
-    std::shared_ptr<Element> const& prev() const override { return rhs; }
-    std::shared_ptr<Element> const& parent() const override { return lhs; }
+    std::shared_ptr<Element> next() const override { return lhs; }
+    std::shared_ptr<Element> prev() const override { return rhs; }
     std::shared_ptr<Element> lhs;
     std::shared_ptr<Element> rhs;
 };
@@ -110,9 +110,8 @@ struct Node<NodeType::Mult> final : public Element
 template<>
 struct Node<NodeType::Print> final : public Element
 {
-    explicit Node(ph::Point const& pos, std::shared_ptr<Element> const& val) :
-        Element(pos),
-        val(val)
+    explicit Node(ph::Point const& pos) :
+        Element(pos)
     {}
 
     int value() const override {
@@ -125,9 +124,8 @@ struct Node<NodeType::Print> final : public Element
 
     void regist(ph::World&) override;
     void remove(ph::World&) override;
-    std::shared_ptr<Element> const& next() const override { return val; }
-    std::shared_ptr<Element> const& prev() const override { return val; }
-    std::shared_ptr<Element> const& parent() const override { return val; }
+    std::shared_ptr<Element> next() const override { return val; }
+    std::shared_ptr<Element> prev() const override { return val; }
     std::shared_ptr<Element> val;
 };
 
@@ -146,9 +144,8 @@ struct Literal : public Element {
 
     void regist(ph::World&) override;
     void remove(ph::World&) override;
-    std::shared_ptr<Element> const& next() const override { return nullptr; }
-    std::shared_ptr<Element> const& prev() const override { return nullptr; }
-    std::shared_ptr<Element> const& parent() const override { return nullptr; }
+    std::shared_ptr<Element> next() const override { return nullptr; }
+    std::shared_ptr<Element> prev() const override { return nullptr; }
     int val;
 };
 

@@ -24,8 +24,12 @@ struct Model {
     void draw() const;
     void save() const;
 
-    std::shared_ptr<Element> selected_node() {
+    std::shared_ptr<Element> const& selected_element() const {
         return m_selected_element;
+    }
+    void selected_element(std::shared_ptr<Element> const& e) {
+        if (e)
+            m_selected_element = e;
     }
 private:
     World& m_world;
