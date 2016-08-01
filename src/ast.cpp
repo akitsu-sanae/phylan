@@ -152,7 +152,7 @@ void ph::Undefined::draw() const {
     m_body->getMotionState()->getWorldTransform(trans);
     ph::graphics::draw_sphere(
         ph::Point::from_trans(trans),
-        ph::graphics::Color{ 255, 255, 255 });
+        ph::graphics::Color{ 0, 255, 255 });
 }
 
 void ph::Undefined::regist(ph::World& world) {

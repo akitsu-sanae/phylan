@@ -36,6 +36,10 @@ picojson::value ast_to_json(ph::Element const* e) {
         obj["op"] = picojson::value("print");
         obj["val"] = ast_to_json(print->val.get());
         return picojson::value(obj);
+    } else if (dynamic_cast<ph::Undefined const*>(e)) {
+        picojson::object obj;
+        obj["op"] = picojson::value("undefined");
+        return picojson::value(obj);
     } else if (auto lit = dynamic_cast<ph::Literal const*>(e)) {
         return picojson::value((double)lit->val);
     }

@@ -37,6 +37,8 @@ static std::shared_ptr<ph::Element> read(picojson::value const& v, ph::Point con
             auto print = std::make_shared<ph::Node<ph::NodeType::Print>>(current_position);
             print->val = read(obj.at("val"), next_position, print);
             element = print;
+        } else if (op == "undefined") {
+            element = std::make_shared<ph::Undefined>(current_position);
         } else {
             throw ph::Element::invalid_loading_exception{};
         }
