@@ -31,10 +31,13 @@ void ph::World::key_event() {
     }
 
     if (m_keyboard->state(Key::J) == KeyState::Push)
-        m_model->selected_element(m_model->selected_element()->next());
+        m_model->move(Model::Move::Next);
     if (m_keyboard->state(Key::L) == KeyState::Push)
-        m_model->selected_element(m_model->selected_element()->prev());
+        m_model->move(Model::Move::Prev);
     if (m_keyboard->state(Key::I) == KeyState::Push)
-        m_model->selected_element(m_model->selected_element()->parent());
+        m_model->move(Model::Move::Parent);
+
+    if (m_keyboard->state(Key::Space) == KeyState::Push)
+        m_model->edit();
 }
 

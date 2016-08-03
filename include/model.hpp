@@ -24,18 +24,18 @@ struct Model {
     void draw() const;
     void save() const;
 
-    std::shared_ptr<Element> const& selected_element() const {
-        return m_selected_element;
-    }
-    void selected_element(std::shared_ptr<Element> const& e) {
-        if (e)
-            m_selected_element = e;
-    }
+    enum class Move {
+        Next,
+        Prev,
+        Parent
+    };
+    void move(Move);
+    void edit();
 private:
     World& m_world;
     std::shared_ptr<Element> m_ast;
     std::vector<std::shared_ptr<Rope>> m_ropes;
-    std::shared_ptr<Element> m_selected_element;
+    Element* m_selected_element;
 };
 
 }

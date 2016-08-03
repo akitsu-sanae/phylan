@@ -39,10 +39,10 @@ public:
 
     virtual void regist(ph::World&) = 0;
     virtual void remove(ph::World&) = 0;
-    virtual std::shared_ptr<Element> next() const = 0;
-    virtual std::shared_ptr<Element> prev() const = 0;
-    std::shared_ptr<Element> const& parent() const {
-        return m_parent;
+    virtual Element* next() const = 0;
+    virtual Element* prev() const = 0;
+    Element* parent() const {
+        return m_parent.get();
     }
     void parent(std::shared_ptr<Element> const& p) {
         m_parent = p;
@@ -81,8 +81,8 @@ struct Node<NodeType::Plus> final : public Element
 
     void regist(ph::World&) override;
     void remove(ph::World&) override;
-    std::shared_ptr<Element> next() const override { return lhs; }
-    std::shared_ptr<Element> prev() const override { return rhs; }
+    Element* next() const override { return lhs.get(); }
+    Element* prev() const override { return rhs.get(); }
     std::shared_ptr<Element> lhs;
     std::shared_ptr<Element> rhs;
 };
@@ -103,8 +103,8 @@ struct Node<NodeType::Mult> final : public Element
 
     void regist(ph::World&) override;
     void remove(ph::World&) override;
-    std::shared_ptr<Element> next() const override { return lhs; }
-    std::shared_ptr<Element> prev() const override { return rhs; }
+    Element* next() const override { return lhs.get(); }
+    Element* prev() const override { return rhs.get(); }
     std::shared_ptr<Element> lhs;
     std::shared_ptr<Element> rhs;
 };
@@ -126,8 +126,8 @@ struct Node<NodeType::Print> final : public Element
 
     void regist(ph::World&) override;
     void remove(ph::World&) override;
-    std::shared_ptr<Element> next() const override { return val; }
-    std::shared_ptr<Element> prev() const override { return val; }
+    Element* next() const override { return val.get(); }
+    Element* prev() const override { return val.get(); }
     std::shared_ptr<Element> val;
 };
 
@@ -146,8 +146,8 @@ struct Literal : public Element {
 
     void regist(ph::World&) override;
     void remove(ph::World&) override;
-    std::shared_ptr<Element> next() const override { return nullptr; }
-    std::shared_ptr<Element> prev() const override { return nullptr; }
+    Element* next() const override { return nullptr; }
+    Element* prev() const override { return nullptr; }
     int val;
 };
 
@@ -163,8 +163,8 @@ struct Undefined : public Element {
 
     void regist(ph::World&) override;
     void remove(ph::World&) override;
-    std::shared_ptr<Element> next() const override { return nullptr; }
-    std::shared_ptr<Element> prev() const override { return nullptr; }
+    Element* next() const override { return nullptr; }
+    Element* prev() const override { return nullptr; }
 };
 
 }

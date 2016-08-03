@@ -62,6 +62,8 @@ static int convert_key(ph::Key key) {
         return GLFW_KEY_Y;
     case ph::Key::Z:
         return GLFW_KEY_Z;
+    case ph::Key::Space:
+        return GLFW_KEY_SPACE;
     }
 }
 
@@ -119,6 +121,8 @@ static ph::Key convert_key(int key) {
         return ph::Key::Y;
     case GLFW_KEY_Z:
         return ph::Key::Z;
+    case GLFW_KEY_SPACE:
+        return ph::Key::Space;
     }
 }
 

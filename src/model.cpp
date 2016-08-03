@@ -21,7 +21,7 @@ ph::Model::Model(ph::World& world, std::string const& filename) :
     for (auto&& rope : m_ropes)
         rope->regist(world);
 
-    m_selected_element = m_ast;
+    m_selected_element = m_ast.get();
 }
 
 ph::Model::~Model() {
@@ -30,7 +30,9 @@ ph::Model::~Model() {
     m_ast->remove(m_world);
 }
 
-static void draw_cursor(std::shared_ptr<ph::Element> const& target) {
+static void draw_cursor(ph::Element const* target) {
+    if (!target)
+        std::abort();
     glPushMatrix();
     auto pos = target->position();
     glTranslated(pos.x(), pos.y(), pos.z());
@@ -54,5 +56,71 @@ void ph::Model::save() const {
     m_ast->save();
 }
 
+void ph::Model::move(ph::Model::Move move) {
+    Element* tmp = nullptr;
+    switch (move) {
+    case Move::Next:
+        tmp = m_selected_element->next();
+        break;
+    case Move::Prev:
+        tmp = m_selected_element->prev();
+        break;
+    case Move::Parent:
+        tmp = m_selected_element->parent();
+        break;
+    }
+    if (tmp)
+        m_selected_element = tmp;
+}
 
+void ph::Model::edit() {
+    if (!dynamic_cast<ph::Undefined*>(m_selected_element)) {
+        std::cerr << "you can edit only undefined node" << std::endl;
+        return;
+    }
+
+    std::string type = "";
+    while (true) {
+        std::cout << "what type? (plus, mult, print, number)" << std::endl;
+        std::cin >> type;
+        if (type == "plus")
+            break;
+        if (type == "mult")
+            break;
+        if (type == "print")
+            break;
+        if (type == "number")
+            break;
+    }
+    std::shared_ptr<ph::Element> element;
+    if (type == "plus") {
+        auto pos = Point::from_vec(m_selected_element->position());
+        auto plus = std::make_shared<ph::Node<ph::NodeType::Plus>>(pos);
+        plus->lhs = std::make_shared<ph::Undefined>(pos);
+        plus->rhs = std::make_shared<ph::Undefined>(pos);
+        element = plus;
+    } else if (type == "mult") {
+        auto pos = Point::from_vec(m_selected_element->position());
+        auto mult = std::make_shared<ph::Node<ph::NodeType::Mult>>(pos);
+        mult->lhs = std::make_shared<ph::Undefined>(pos);
+        mult->rhs = std::make_shared<ph::Undefined>(pos);
+        element = mult;
+    } else if (type == "print") {
+        auto pos = Point::from_vec(m_selected_element->position());
+        auto print = std::make_shared<ph::Node<ph::NodeType::Print>>(pos);
+        print->val = std::make_shared<ph::Undefined>(pos);
+        element = print;
+    }
+    for (auto&& rope : m_ropes)
+        rope->remove(m_world);
+    m_ast->remove(m_world);
+
+    // swap element and m_selected_element
+
+    m_ast->regist(m_world);
+    for (auto&& rope : m_ropes)
+        rope->regist(m_world);
+
+    m_selected_element = m_ast.get();
+}
 
