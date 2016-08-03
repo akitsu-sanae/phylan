@@ -16,6 +16,13 @@ struct Point {
             trans.getOrigin().getZ()
         };
     }
+    static Point from_vec(btVector3 const& vec) {
+        return Point{
+           vec.x(),
+           vec.y(),
+           vec.z()
+        };
+    }
 };
 
 }
