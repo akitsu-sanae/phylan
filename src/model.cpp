@@ -79,25 +79,32 @@ void add_element(
     std::unique_ptr<ph::Element>& e) {
 
     if (auto mult = ph::node_cast<ph::NodeType::Mult>(ast.get())) {
-        if (mult->lhs.get() == selected)
+        if (mult->lhs.get() == selected) {
             mult->lhs = std::move(e);
-        else
+            mult->lhs->parent(mult);
+        } else
             add_element(mult->lhs, selected, e);
-       if (mult->rhs.get() == selected)
+        if (mult->rhs.get() == selected) {
             mult->rhs = std::move(e);
-       else add_element(mult->rhs, selected, e);
+            mult->rhs->parent(mult);
+        } else
+            add_element(mult->rhs, selected, e);
     } else if (auto plus = ph::node_cast<ph::NodeType::Plus>(ast.get())) {
-        if (plus->lhs.get() == selected)
+        if (plus->lhs.get() == selected) {
             plus->lhs = std::move(e);
-        else
-            add_element(mult->lhs, selected, e);
-        if (plus->rhs.get() == selected)
+            plus->lhs->parent(plus);
+        } else
+            add_element(plus->lhs, selected, e);
+        if (plus->rhs.get() == selected) {
             plus->rhs = std::move(e);
-        else
+            plus->rhs->parent(plus);
+        } else
             add_element(plus->rhs, selected, e);
     } else if (auto print = ph::node_cast<ph::NodeType::Print>(ast.get())) {
-        if (print->val.get() == selected)
+        if (print->val.get() == selected) {
             print->val = std::move(e);
+            print->val->parent(print);
+        }
         else
             add_element(print->val, selected, e);
     }
@@ -105,8 +112,28 @@ void add_element(
 }
 
 void ph::Model::edit() {
+    if (m_selected_element == m_ast.get()) {
+        std::cerr << "you cen not edit the root node!" << std::endl;
+        return;
+    }
     if (!dynamic_cast<ph::Undefined*>(m_selected_element)) {
-        std::cerr << "you can edit only undefined node" << std::endl;
+        std::unique_ptr<Element> undef = std::make_unique<Undefined>(Point::from_vec(m_selected_element->position()));
+        for (auto&& rope : m_ropes)
+            rope->remove(m_world);
+        m_ast->remove(m_world);
+
+        // swap element and m_selected_element
+        add_element(m_ast, m_selected_element, undef);
+
+        m_ropes.clear();
+        m_ropes = ph::Rope::set(m_ast.get(), *m_world.world_info());
+        m_ropes.push_back(std::make_shared<Rope>(*m_ast, *m_world.world_info()));
+
+        m_ast->regist(m_world);
+        for (auto&& rope : m_ropes)
+            rope->regist(m_world);
+
+        m_selected_element = m_ast.get();
         return;
     }
 
@@ -129,17 +156,22 @@ void ph::Model::edit() {
         auto plus = std::make_unique<ph::Node<ph::NodeType::Plus>>(pos);
         plus->lhs = std::make_unique<ph::Undefined>(pos);
         plus->rhs = std::make_unique<ph::Undefined>(pos);
+        plus->lhs->parent(plus.get());
+        plus->rhs->parent(plus.get());
         element = std::move(plus);
     } else if (type == "mult") {
         auto pos = Point::from_vec(m_selected_element->position());
         auto mult = std::make_unique<ph::Node<ph::NodeType::Mult>>(pos);
         mult->lhs = std::make_unique<ph::Undefined>(pos);
         mult->rhs = std::make_unique<ph::Undefined>(pos);
+        mult->lhs->parent(mult.get());
+        mult->rhs->parent(mult.get());
         element = std::move(mult);
     } else if (type == "print") {
         auto pos = Point::from_vec(m_selected_element->position());
         auto print = std::make_unique<ph::Node<ph::NodeType::Print>>(pos);
         print->val = std::make_unique<ph::Undefined>(pos);
+        print->val->parent(print.get());
         element = std::move(print);
     } else if (type == "number") {
         std::cout << "value: ";
