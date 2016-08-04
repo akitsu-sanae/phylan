@@ -111,32 +111,7 @@ void add_element(
 
 }
 
-void ph::Model::edit() {
-    if (m_selected_element == m_ast.get()) {
-        std::cerr << "you cen not edit the root node!" << std::endl;
-        return;
-    }
-    if (!dynamic_cast<ph::Undefined*>(m_selected_element)) {
-        std::unique_ptr<Element> undef = std::make_unique<Undefined>(Point::from_vec(m_selected_element->position()));
-        for (auto&& rope : m_ropes)
-            rope->remove(m_world);
-        m_ast->remove(m_world);
-
-        // swap element and m_selected_element
-        add_element(m_ast, m_selected_element, undef);
-
-        m_ropes.clear();
-        m_ropes = ph::Rope::set(m_ast.get(), *m_world.world_info());
-        m_ropes.push_back(std::make_shared<Rope>(*m_ast, *m_world.world_info()));
-
-        m_ast->regist(m_world);
-        for (auto&& rope : m_ropes)
-            rope->regist(m_world);
-
-        m_selected_element = m_ast.get();
-        return;
-    }
-
+std::unique_ptr<ph::Element> make_node(ph::Element const* selected) {
     std::string type = "";
     while (true) {
         std::cout << "what type? (plus, mult, print, number)" << std::endl;
@@ -152,7 +127,7 @@ void ph::Model::edit() {
     }
     std::unique_ptr<ph::Element> element;
     if (type == "plus") {
-        auto pos = Point::from_vec(m_selected_element->position());
+        auto pos = ph::Point::from_vec(selected->position());
         auto plus = std::make_unique<ph::Node<ph::NodeType::Plus>>(pos);
         plus->lhs = std::make_unique<ph::Undefined>(pos);
         plus->rhs = std::make_unique<ph::Undefined>(pos);
@@ -160,7 +135,7 @@ void ph::Model::edit() {
         plus->rhs->parent(plus.get());
         element = std::move(plus);
     } else if (type == "mult") {
-        auto pos = Point::from_vec(m_selected_element->position());
+        auto pos = ph::Point::from_vec(selected->position());
         auto mult = std::make_unique<ph::Node<ph::NodeType::Mult>>(pos);
         mult->lhs = std::make_unique<ph::Undefined>(pos);
         mult->rhs = std::make_unique<ph::Undefined>(pos);
@@ -168,7 +143,7 @@ void ph::Model::edit() {
         mult->rhs->parent(mult.get());
         element = std::move(mult);
     } else if (type == "print") {
-        auto pos = Point::from_vec(m_selected_element->position());
+        auto pos = ph::Point::from_vec(selected->position());
         auto print = std::make_unique<ph::Node<ph::NodeType::Print>>(pos);
         print->val = std::make_unique<ph::Undefined>(pos);
         print->val->parent(print.get());
@@ -177,8 +152,22 @@ void ph::Model::edit() {
         std::cout << "value: ";
         int n;
         std::cin >> n;
-        element = std::make_unique<ph::Literal>(Point::from_vec(m_selected_element->position()), n);
+        element = std::make_unique<ph::Literal>(ph::Point::from_vec(selected->position()), n);
     }
+    return element;
+}
+
+void ph::Model::edit() {
+    if (m_selected_element == m_ast.get()) {
+        std::cerr << "you cen not edit the root node!" << std::endl;
+        return;
+    }
+    std::unique_ptr<Element> element;
+    if (!dynamic_cast<ph::Undefined*>(m_selected_element))
+        element = std::make_unique<Undefined>(Point::from_vec(m_selected_element->position()));
+    else
+        element = make_node(m_selected_element);
+
     for (auto&& rope : m_ropes)
         rope->remove(m_world);
     m_ast->remove(m_world);
