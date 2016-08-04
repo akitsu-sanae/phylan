@@ -167,6 +167,15 @@ struct Undefined : public Element {
     Element* prev() const override { return nullptr; }
 };
 
+template<ph::NodeType T>
+inline auto node_cast(ph::Element* e) {
+    return dynamic_cast<ph::Node<T>*>(e);
+}
+template<ph::NodeType T>
+inline auto node_cast(ph::Element const* e) {
+    return dynamic_cast<ph::Node<T> const*>(e);
+}
+
 }
 
 #endif

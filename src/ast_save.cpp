@@ -13,25 +13,20 @@ file LICENSE or copy at http://www.boost.org/LICENSE_1_0.txt)
 #include <picojson.h>
 #include "ast.hpp"
 
-template<ph::NodeType T>
-auto node_cast(ph::Element const* e) {
-    return dynamic_cast<ph::Node<T> const*>(e);
-}
-
 picojson::value ast_to_json(ph::Element const* e) {
-    if (auto plus = node_cast<ph::NodeType::Plus>(e)) {
+    if (auto plus = ph::node_cast<ph::NodeType::Plus>(e)) {
         picojson::object obj;
         obj["op"] = picojson::value("plus");
         obj["lhs"] = ast_to_json(plus->lhs.get());
         obj["rhs"] = ast_to_json(plus->rhs.get());
         return picojson::value(obj);
-    } else if (auto mult = node_cast<ph::NodeType::Mult>(e)) {
+    } else if (auto mult = ph::node_cast<ph::NodeType::Mult>(e)) {
         picojson::object obj;
         obj["op"] = picojson::value("mult");
         obj["lhs"] = ast_to_json(mult->lhs.get());
         obj["rhs"] = ast_to_json(mult->rhs.get());
         return picojson::value(obj);
-    } else if (auto print = node_cast<ph::NodeType::Print>(e)) {
+    } else if (auto print = ph::node_cast<ph::NodeType::Print>(e)) {
         picojson::object obj;
         obj["op"] = picojson::value("print");
         obj["val"] = ast_to_json(print->val.get());

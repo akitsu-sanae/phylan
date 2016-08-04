@@ -73,6 +73,37 @@ void ph::Model::move(ph::Model::Move move) {
         m_selected_element = tmp;
 }
 
+void add_element(
+    std::unique_ptr<ph::Element>& ast,
+    ph::Element* selected,
+    std::unique_ptr<ph::Element>& e) {
+
+    if (auto mult = ph::node_cast<ph::NodeType::Mult>(ast.get())) {
+        if (mult->lhs.get() == selected)
+            mult->lhs = std::move(e);
+        else
+            add_element(mult->lhs, selected, e);
+       if (mult->rhs.get() == selected)
+            mult->rhs = std::move(e);
+       else add_element(mult->rhs, selected, e);
+    } else if (auto plus = ph::node_cast<ph::NodeType::Plus>(ast.get())) {
+        if (plus->lhs.get() == selected)
+            plus->lhs = std::move(e);
+        else
+            add_element(mult->lhs, selected, e);
+        if (plus->rhs.get() == selected)
+            plus->rhs = std::move(e);
+        else
+            add_element(plus->rhs, selected, e);
+    } else if (auto print = ph::node_cast<ph::NodeType::Print>(ast.get())) {
+        if (print->val.get() == selected)
+            print->val = std::move(e);
+        else
+            add_element(print->val, selected, e);
+    }
+
+}
+
 void ph::Model::edit() {
     if (!dynamic_cast<ph::Undefined*>(m_selected_element)) {
         std::cerr << "you can edit only undefined node" << std::endl;
@@ -110,12 +141,22 @@ void ph::Model::edit() {
         auto print = std::make_unique<ph::Node<ph::NodeType::Print>>(pos);
         print->val = std::make_unique<ph::Undefined>(pos);
         element = std::move(print);
+    } else if (type == "number") {
+        std::cout << "value: ";
+        int n;
+        std::cin >> n;
+        element = std::make_unique<ph::Literal>(Point::from_vec(m_selected_element->position()), n);
     }
     for (auto&& rope : m_ropes)
         rope->remove(m_world);
     m_ast->remove(m_world);
 
     // swap element and m_selected_element
+    add_element(m_ast, m_selected_element, element);
+
+    m_ropes.clear();
+    m_ropes = ph::Rope::set(m_ast.get(), *m_world.world_info());
+    m_ropes.push_back(std::make_shared<Rope>(*m_ast, *m_world.world_info()));
 
     m_ast->regist(m_world);
     for (auto&& rope : m_ropes)
