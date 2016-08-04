@@ -62,8 +62,20 @@ static int convert_key(ph::Key key) {
         return GLFW_KEY_Y;
     case ph::Key::Z:
         return GLFW_KEY_Z;
+    case ph::Key::LeftCtrl:
+        return GLFW_KEY_LEFT_CONTROL;
+    case ph::Key::RightCtrl:
+        return GLFW_KEY_RIGHT_CONTROL;
+    case ph::Key::LeftShift:
+        return GLFW_KEY_LEFT_SHIFT;
+    case ph::Key::RightShift:
+        return GLFW_KEY_RIGHT_SHIFT;
+    case ph::Key::Enter:
+        return GLFW_KEY_ENTER;
     case ph::Key::Space:
         return GLFW_KEY_SPACE;
+    default:
+        throw std::logic_error{"invalid key"};
     }
 }
 
@@ -121,8 +133,20 @@ static ph::Key convert_key(int key) {
         return ph::Key::Y;
     case GLFW_KEY_Z:
         return ph::Key::Z;
+    case GLFW_KEY_LEFT_CONTROL:
+        return ph::Key::LeftCtrl;
+    case GLFW_KEY_RIGHT_CONTROL:
+        return ph::Key::RightCtrl;
+    case GLFW_KEY_LEFT_SHIFT:
+        return ph::Key::LeftShift;
+    case GLFW_KEY_RIGHT_SHIFT:
+        return ph::Key::RightShift;
+    case GLFW_KEY_ENTER:
+        return ph::Key::Enter;
     case GLFW_KEY_SPACE:
         return ph::Key::Space;
+    default:
+        throw std::logic_error{ "invalid key" };
     }
 }
 
