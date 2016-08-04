@@ -33,7 +33,8 @@ struct Model {
     void edit();
 private:
     World& m_world;
-    std::shared_ptr<Element> m_ast;
+
+    std::unique_ptr<Element> m_ast;
     std::vector<std::shared_ptr<Rope>> m_ropes;
     Element* m_selected_element;
 };

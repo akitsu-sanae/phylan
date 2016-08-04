@@ -27,7 +27,7 @@ struct Rope {
     void regist(ph::World&);
     void remove(ph::World&);
 
-    static std::vector<std::shared_ptr<ph::Rope>> set(std::shared_ptr<Element> const&, btSoftBodyWorldInfo&);
+    static std::vector<std::shared_ptr<ph::Rope>> set(Element const*, btSoftBodyWorldInfo&);
 private:
     btSoftBody* m_body;
 };

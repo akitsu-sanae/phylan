@@ -42,22 +42,22 @@ public:
     virtual Element* next() const = 0;
     virtual Element* prev() const = 0;
     Element* parent() const {
-        return m_parent.get();
+        return m_parent;
     }
-    void parent(std::shared_ptr<Element> const& p) {
+    void parent(Element* p) {
         m_parent = p;
     }
 
     btVector3 position() const;
     btRigidBody* body() const { return m_body; }
 
-    static std::shared_ptr<Element> load(std::string const&);
+    static std::unique_ptr<Element> load(std::string const&);
     void save() const;
 
     struct invalid_loading_exception {};
     struct invalid_execution_exception {};
 protected:
-    std::shared_ptr<Element> m_parent;
+    Element* m_parent = nullptr;
     btCollisionShape* m_shape = nullptr;
     btRigidBody* m_body = nullptr;
 };
@@ -83,8 +83,8 @@ struct Node<NodeType::Plus> final : public Element
     void remove(ph::World&) override;
     Element* next() const override { return lhs.get(); }
     Element* prev() const override { return rhs.get(); }
-    std::shared_ptr<Element> lhs;
-    std::shared_ptr<Element> rhs;
+    std::unique_ptr<Element> lhs;
+    std::unique_ptr<Element> rhs;
 };
 
 template<>
@@ -105,8 +105,8 @@ struct Node<NodeType::Mult> final : public Element
     void remove(ph::World&) override;
     Element* next() const override { return lhs.get(); }
     Element* prev() const override { return rhs.get(); }
-    std::shared_ptr<Element> lhs;
-    std::shared_ptr<Element> rhs;
+    std::unique_ptr<Element> lhs;
+    std::unique_ptr<Element> rhs;
 };
 
 template<>
@@ -128,7 +128,7 @@ struct Node<NodeType::Print> final : public Element
     void remove(ph::World&) override;
     Element* next() const override { return val.get(); }
     Element* prev() const override { return val.get(); }
-    std::shared_ptr<Element> val;
+    std::unique_ptr<Element> val;
 };
 
 struct Literal : public Element {

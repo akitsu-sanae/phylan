@@ -16,7 +16,7 @@ ph::Model::Model(ph::World& world, std::string const& filename) :
 {
     m_ast = ph::Element::load(filename);
     m_ast->regist(world);
-    m_ropes = ph::Rope::set(m_ast, *world.world_info());
+    m_ropes = ph::Rope::set(m_ast.get(), *world.world_info());
     m_ropes.push_back(std::make_shared<Rope>(*m_ast, *world.world_info()));
     for (auto&& rope : m_ropes)
         rope->regist(world);
@@ -92,24 +92,24 @@ void ph::Model::edit() {
         if (type == "number")
             break;
     }
-    std::shared_ptr<ph::Element> element;
+    std::unique_ptr<ph::Element> element;
     if (type == "plus") {
         auto pos = Point::from_vec(m_selected_element->position());
-        auto plus = std::make_shared<ph::Node<ph::NodeType::Plus>>(pos);
-        plus->lhs = std::make_shared<ph::Undefined>(pos);
-        plus->rhs = std::make_shared<ph::Undefined>(pos);
-        element = plus;
+        auto plus = std::make_unique<ph::Node<ph::NodeType::Plus>>(pos);
+        plus->lhs = std::make_unique<ph::Undefined>(pos);
+        plus->rhs = std::make_unique<ph::Undefined>(pos);
+        element = std::move(plus);
     } else if (type == "mult") {
         auto pos = Point::from_vec(m_selected_element->position());
-        auto mult = std::make_shared<ph::Node<ph::NodeType::Mult>>(pos);
-        mult->lhs = std::make_shared<ph::Undefined>(pos);
-        mult->rhs = std::make_shared<ph::Undefined>(pos);
-        element = mult;
+        auto mult = std::make_unique<ph::Node<ph::NodeType::Mult>>(pos);
+        mult->lhs = std::make_unique<ph::Undefined>(pos);
+        mult->rhs = std::make_unique<ph::Undefined>(pos);
+        element = std::move(mult);
     } else if (type == "print") {
         auto pos = Point::from_vec(m_selected_element->position());
-        auto print = std::make_shared<ph::Node<ph::NodeType::Print>>(pos);
-        print->val = std::make_shared<ph::Undefined>(pos);
-        element = print;
+        auto print = std::make_unique<ph::Node<ph::NodeType::Print>>(pos);
+        print->val = std::make_unique<ph::Undefined>(pos);
+        element = std::move(print);
     }
     for (auto&& rope : m_ropes)
         rope->remove(m_world);

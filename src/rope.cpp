@@ -49,30 +49,30 @@ void ph::Rope::draw() const {
 }
 
 template<ph::NodeType type>
-auto node_cast(std::shared_ptr<ph::Element> const& e) {
-    return std::dynamic_pointer_cast<ph::Node<type>>(e);
+auto node_cast(ph::Element const* e) {
+    return dynamic_cast<ph::Node<type> const*>(e);
 }
 
-std::vector<std::shared_ptr<ph::Rope>> ph::Rope::set(std::shared_ptr<ph::Element> const& element, btSoftBodyWorldInfo& info) {
+std::vector<std::shared_ptr<ph::Rope>> ph::Rope::set(ph::Element const* element, btSoftBodyWorldInfo& info) {
     if (auto mult_node = node_cast<ph::NodeType::Mult>(element)) {
-        auto left_ropes = ph::Rope::set(mult_node->lhs, info);
+        auto left_ropes = ph::Rope::set(mult_node->lhs.get(), info);
         left_ropes.push_back(std::make_shared<ph::Rope>(*element, *mult_node->lhs, info));
-        auto right_ropes = ph::Rope::set(mult_node->rhs, info);
+        auto right_ropes = ph::Rope::set(mult_node->rhs.get(), info);
         right_ropes.push_back(std::make_shared<ph::Rope>(*element, *mult_node->rhs, info));
         left_ropes.insert(std::end(left_ropes), std::begin(right_ropes), std::end(right_ropes));
         return left_ropes;
     } else if (auto plus_node = node_cast<ph::NodeType::Plus>(element)) {
-        auto left_ropes = Rope::set(plus_node->lhs, info);
+        auto left_ropes = Rope::set(plus_node->lhs.get(), info);
         left_ropes.push_back(std::make_shared<ph::Rope>(*element, *plus_node->lhs, info));
-        auto right_ropes = Rope::set(plus_node->rhs, info);
+        auto right_ropes = Rope::set(plus_node->rhs.get(), info);
         right_ropes.push_back(std::make_shared<ph::Rope>(*element, *plus_node->rhs, info));
         left_ropes.insert(std::end(left_ropes), std::begin(right_ropes), std::end(right_ropes));
         return left_ropes;
     } else if (auto print_node = node_cast<ph::NodeType::Print>(element)) {
-        auto child_ropes = Rope::set(print_node->val, info);
+        auto child_ropes = Rope::set(print_node->val.get(), info);
         child_ropes.push_back(std::make_shared<Rope>(*element, *print_node->val, info));
         return child_ropes;
-    } else if (auto literal_node = std::dynamic_pointer_cast<Literal>(element)) {
+    } else if (auto literal_node = dynamic_cast<Literal const*>(element)) {
         return{};
     }
     return{};
