@@ -13,9 +13,9 @@ file LICENSE or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 static std::unique_ptr<ph::Element> read(picojson::value const& v, ph::Point const& current_position, ph::Element* parent) {
     auto next_position = ph::Point{
-        current_position.x + double(std::rand() % 1000) / 100000.0,
-        current_position.y - 0.5,
-        current_position.z + double(std::rand() % 1000) / 100000.0
+        current_position.x + float(std::rand() % 1000) / 100000.f,
+        current_position.y - 0.5f,
+        current_position.z + float(std::rand() % 1000) / 100000.f
     };
     std::unique_ptr<ph::Element> element;
     if (v.is<double>())

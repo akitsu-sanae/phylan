@@ -21,7 +21,7 @@ btVector3 ph::Element::position() const {
 static btRigidBody* create_rigid_body(btTransform const& trans, btCollisionShape* shape)
 {
     btVector3 inertia(0, 0, 0);
-    double mass = 1.0;
+    float mass = 1.0;
     shape->calculateLocalInertia(mass, inertia);
 
     auto motion_state = new btDefaultMotionState(trans);
@@ -42,7 +42,7 @@ ph::Element::Element(ph::Point const& position) {
 
     m_body = create_rigid_body(trans, m_shape);
     m_body->setCcdMotionThreshold(1.0);
-    m_body->setCcdSweptSphereRadius(0.05);
+    m_body->setCcdSweptSphereRadius(0.05f);
 }
 
 ph::Element::~Element() {

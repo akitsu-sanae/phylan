@@ -18,7 +18,7 @@ ph::Rope::Rope(ph::Element const& l, ph::Element const& r, btSoftBodyWorldInfo& 
     m_body->m_cfg.piterations = 4;
     m_body->m_materials[0]->m_kLST = 0.5;
     m_body->setTotalMass(5.0);
-    m_body->getCollisionShape()->setMargin(0.01);
+    m_body->getCollisionShape()->setMargin(0.01f);
     m_body->appendAnchor(0, l.body());
     m_body->appendAnchor(m_body->m_nodes.size() - 1, r.body());
 }
@@ -28,7 +28,7 @@ ph::Rope::Rope(ph::Element const& top, btSoftBodyWorldInfo& info) {
     m_body->m_cfg.piterations = 4;
     m_body->m_materials[0]->m_kLST = 0.5;
     m_body->setTotalMass(5.0);
-    m_body->getCollisionShape()->setMargin(0.01);
+    m_body->getCollisionShape()->setMargin(0.01f);
     m_body->appendAnchor(m_body->m_nodes.size() - 1, top.body());
 }
 

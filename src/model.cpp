@@ -38,7 +38,7 @@ static void draw_cursor(ph::Element const* target) {
     glTranslated(pos.x(), pos.y(), pos.z());
     glBegin(GL_LINE_STRIP);
     for (int i = 0; i < 16; i++) {
-        double angle = 2.0*3.141592 * i / 16.0;
+        double angle = 2.0*ph::PI<double>() * i / 16.0;
         glVertex2d(std::cos(angle), std::sin(angle));
     }
     glEnd();

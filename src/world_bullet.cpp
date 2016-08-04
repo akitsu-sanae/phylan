@@ -24,14 +24,14 @@ void ph::World::init_bullet() {
     auto overlapping_pair_cache = new btDbvtBroadphase();
     auto solver = new btSequentialImpulseConstraintSolver();
     m_dynamics_world = std::make_shared<btSoftRigidDynamicsWorld>(dispatcher, overlapping_pair_cache, solver, config);
-    m_dynamics_world->setGravity(btVector3(0, -9.8, 0));
+    m_dynamics_world->setGravity(btVector3(0, -9.8f, 0));
 
     m_dynamics_world_info = std::make_shared<btSoftBodyWorldInfo>();
     m_dynamics_world_info->m_dispatcher = dispatcher;
     m_dynamics_world_info->m_broadphase = overlapping_pair_cache;
     m_dynamics_world_info->m_sparsesdf.Initialize();
-    m_dynamics_world_info->m_gravity.setValue(0, -9.8, 0);
-    m_dynamics_world_info->air_density = 1.2;
+    m_dynamics_world_info->m_gravity.setValue(0, -9.8f, 0);
+    m_dynamics_world_info->air_density = 1.2f;
 
     init_bodies();
 }

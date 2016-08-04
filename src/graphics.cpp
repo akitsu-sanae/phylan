@@ -16,12 +16,12 @@ using Color = ph::graphics::Color;
 
 static std::vector<Face> create_sphere_faces() {
     auto mapped_position = [](int x, int y) -> ph::Point {
-        double phi = 2.0 * 3.141592 * x / 16.0;
-        double theta = 2.0 * 3.141592 * y / 16.0;
+        float phi = 2.f * ph::PI<float>() * x / 16.f;
+        float theta = 2.f * ph::PI<float>() * y / 16.f;
         return ph::Point {
-            std::sin(theta)*std::cos(phi),
-            std::sin(theta)*std::sin(phi),
-            std::cos(theta)
+            std::sinf(theta)*std::cosf(phi),
+            std::sinf(theta)*std::sinf(phi),
+            std::cosf(theta)
         };
     };
     std::vector<Face> result;

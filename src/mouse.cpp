@@ -14,6 +14,8 @@ static int convert_button(ph::Mouse::Button button) {
         return GLFW_MOUSE_BUTTON_1;
     case ph::Mouse::Button::Right:
         return GLFW_MOUSE_BUTTON_2;
+    default:
+        throw std::logic_error{"invalid mouse button"};
     }
 }
 
@@ -22,7 +24,7 @@ void ph::Mouse::update() {
     // button
 
     auto update = [this](Button button) {
-        bool is_pressed = glfwGetMouseButton(m_window, convert_button(button));
+        bool is_pressed = glfwGetMouseButton(m_window, convert_button(button)) == GLFW_PRESS;
         if (!is_pressed)
             m_button_state[button] = State::Release;
         else if (m_button_state[button] == State::Release)

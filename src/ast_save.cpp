@@ -37,6 +37,8 @@ picojson::value ast_to_json(ph::Element const* e) {
         return picojson::value(obj);
     } else if (auto lit = dynamic_cast<ph::Literal const*>(e)) {
         return picojson::value((double)lit->val);
+    } else {
+        throw std::logic_error{"invalid node to save"};
     }
 }
 

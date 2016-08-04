@@ -46,7 +46,7 @@ implementions:
     std::shared_ptr<Keyboard> m_keyboard;
     std::shared_ptr<Mouse> m_mouse;
 
-    constexpr static double dt = 0.01;
+    constexpr static float dt = 0.01f;
 
     void draw() const;
 

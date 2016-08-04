@@ -5,10 +5,15 @@
 
 namespace ph {
 
+template<typename T>
+inline constexpr T PI() {
+    return static_cast<T>(3.141592);
+}
+
 struct Point {
-    double x;
-    double y;
-    double z;
+    float x;
+    float y;
+    float z;
     static Point from_trans(btTransform const& trans) {
         return Point{
             trans.getOrigin().getX(),
