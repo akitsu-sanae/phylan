@@ -2,11 +2,11 @@ TARGET_NAME = phylan
 CXX = clang++
 CXXFLAGS = -Wall -Wextra -std=c++14 -O2
 
-LDFLAGS = -L../mikayuu/build/ `pkg-config --libs bullet`
+LDFLAGS = `pkg-config --libs bullet`
 ifeq ($(OS), Windows_NT)
-	LIBS = -lmikayuu -lglfw3 -lopengl32 -lglu32
+	LIBS = -lglfw3 -lopengl32 -lglu32
 else
-	LIBS = -lmikayuu -lglfw3 -lgl -lGLU
+	LIBS = -lglfw3 -lgl -lGLU
 endif
 
 INCLUDE = -I./include `pkg-config --cflags bullet`
