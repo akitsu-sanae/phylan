@@ -54,11 +54,7 @@ static std::unique_ptr<ph::Element> read(picojson::value const& v, ph::Point con
     return element;
 }
 
-std::unique_ptr<ph::Element> ph::Element::load(std::string const& filename) {
-    std::ifstream input(filename);
-    if (input.fail())
-        return nullptr;
-
+std::unique_ptr<ph::Element> ph::Element::load(std::istream& input) {
     picojson::value v;
     input >> v;
     return read(v, ph::Point{ 0.0, 10.0, 0.0 }, nullptr);

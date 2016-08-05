@@ -5,6 +5,8 @@
   file LICENSE or copy at http://www.boost.org/LICENSE_1_0.txt)
 ============================================================================*/
 
+#include <iostream>
+#include <fstream>
 
 #define GLFW_INCLUDE_GLU
 #include <GLFW/glfw3.h>
@@ -28,8 +30,14 @@ ph::World::World(std::string const& filename) {
     init_gl();
     init_bullet();
 
-    if (filename != "")
-        m_model = std::make_shared<Model>(*this, filename);
+    if (filename != "") {
+        std::ifstream input(filename);
+        if (input.fail()) {
+            std::cerr << "can not open file" << std::endl;
+            return;
+        }
+        m_model = std::make_shared<ph::Model>(*this, input);
+    }
 }
 
 ph::World::~World() {

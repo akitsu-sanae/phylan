@@ -52,7 +52,7 @@ public:
     btVector3 position() const;
     btRigidBody* body() const { return m_body; }
 
-    static std::unique_ptr<Element> load(std::string const&);
+    static std::unique_ptr<Element> load(std::istream&);
     void save() const;
 
     struct invalid_loading_exception {};

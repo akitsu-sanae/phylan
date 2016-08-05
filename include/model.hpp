@@ -18,7 +18,7 @@ struct Element;
 struct Rope;
 
 struct Model {
-    explicit Model(World&, std::string const&);
+    explicit Model(World&, std::istream&);
     ~Model();
 
     void draw() const;

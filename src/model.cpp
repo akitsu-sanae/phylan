@@ -11,10 +11,10 @@ file LICENSE or copy at http://www.boost.org/LICENSE_1_0.txt)
 #include "ast.hpp"
 #include "rope.hpp"
 
-ph::Model::Model(ph::World& world, std::string const& filename) :
+ph::Model::Model(ph::World& world, std::istream& input) :
     m_world(world)
 {
-    m_ast = ph::Element::load(filename);
+    m_ast = ph::Element::load(input);
     m_ast->regist(world);
     m_ropes = ph::Rope::set(m_ast.get(), *world.world_info());
     m_ropes.push_back(std::make_shared<Rope>(*m_ast, *world.world_info()));

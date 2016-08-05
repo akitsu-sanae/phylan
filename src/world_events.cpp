@@ -7,6 +7,7 @@
 
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <fstream>
 #include "world.hpp"
 #include "keyboard.hpp"
 #include "mouse.hpp"
@@ -36,7 +37,12 @@ static void command_mode(std::shared_ptr<ph::Model>& model, ph::World& world) {
         std::cout << "import filename: ";
         std::string filename;
         std::cin >> filename;
-        model = std::make_shared<ph::Model>(world, filename);
+        std::ifstream input(filename);
+        if (input.fail()) {
+            std::cerr << "can not open file: " << filename << std::endl;
+            return;
+        }
+        model = std::make_shared<ph::Model>(world, input);
     } else if (command == "save") {
         model->save();
     } else if (command == "edit") {
