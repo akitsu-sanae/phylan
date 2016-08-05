@@ -55,6 +55,14 @@ void ph::World::key_event() {
     if (m_keyboard->state(Key::C) == KeyState::Push)
         command_mode(m_model, *this);
 
+    if (m_keyboard->state(Key::V) == KeyState::Push) {
+        try {
+            std::cout << m_model->eval() << std::endl;
+        } catch (Element::invalid_execution_exception) {
+            std::cerr << "Undefined Node can not be calculated" << std::endl;
+        }
+    }
+
     if (m_keyboard->state(Key::J) == KeyState::Push)
         m_model->move(Model::Move::Next);
     if (m_keyboard->state(Key::L) == KeyState::Push)

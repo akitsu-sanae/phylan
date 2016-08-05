@@ -196,3 +196,6 @@ void ph::Model::edit() {
     m_selected_element = m_ast.get();
 }
 
+int ph::Model::eval() const {
+    return m_ast->value();
+}

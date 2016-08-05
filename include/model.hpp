@@ -31,6 +31,8 @@ struct Model {
     };
     void move(Move);
     void edit();
+
+    int eval() const;
 private:
     World& m_world;
 
