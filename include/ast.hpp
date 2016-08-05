@@ -24,7 +24,8 @@ struct World;
 enum class NodeType {
     Plus,
     Mult,
-    Print
+    Print,
+    If
 };
 
 
@@ -129,6 +130,28 @@ struct Node<NodeType::Print> final : public Element
     Element* next() const override { return val.get(); }
     Element* prev() const override { return val.get(); }
     std::unique_ptr<Element> val;
+};
+
+template<>
+struct Node<NodeType::If> final : public Element
+{
+    using Element::Element;
+    int value() const override {
+        if (cond->value())
+            return true_->value();
+        else
+            return false_->value();
+    }
+    void draw() const override;
+    void update() override;
+
+    void regist(ph::World&) override;
+    void remove(ph::World&) override;
+    Element* next() const override { return true_.get(); }
+    Element* prev() const override { return false_.get(); }
+    std::unique_ptr<Element> cond;
+    std::unique_ptr<Element> true_;
+    std::unique_ptr<Element> false_;
 };
 
 struct Literal : public Element {

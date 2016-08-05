@@ -68,6 +68,16 @@ std::vector<std::shared_ptr<ph::Rope>> ph::Rope::set(ph::Element const* element,
         right_ropes.push_back(std::make_shared<ph::Rope>(*element, *plus_node->rhs, info));
         left_ropes.insert(std::end(left_ropes), std::begin(right_ropes), std::end(right_ropes));
         return left_ropes;
+    } else if (auto if_node = node_cast<ph::NodeType::If>(element)) {
+        auto cond_ropes = Rope::set(if_node->cond.get(), info);
+        cond_ropes.push_back(std::make_shared<ph::Rope>(*element, *if_node->cond, info));
+        auto true_ropes = Rope::set(if_node->true_.get(), info);
+        true_ropes.push_back(std::make_shared<ph::Rope>(*element, *if_node->true_, info));
+        auto false_ropes = Rope::set(if_node->false_.get(), info);
+        false_ropes.push_back(std::make_shared<ph::Rope>(*element, *if_node->false_, info));
+        cond_ropes.insert(std::end(cond_ropes), std::begin(true_ropes), std::end(true_ropes));
+        cond_ropes.insert(std::end(cond_ropes), std::begin(false_ropes), std::end(false_ropes));
+        return cond_ropes;
     } else if (auto print_node = node_cast<ph::NodeType::Print>(element)) {
         auto child_ropes = Rope::set(print_node->val.get(), info);
         child_ropes.push_back(std::make_shared<Rope>(*element, *print_node->val, info));

@@ -20,7 +20,7 @@ static std::unique_ptr<ph::Element> read(picojson::value const& v, ph::Point con
     std::unique_ptr<ph::Element> element;
     if (v.is<double>())
         element = std::make_unique<ph::Literal>(current_position, static_cast<int>(v.get<double>()));
-    else if (v.is<picojson::object>()){
+    else if (v.is<picojson::object>()) {
         auto& obj = v.get<picojson::object>();
         auto op = obj.find("op")->second.get<std::string>();
         if (op == "plus") {
@@ -33,6 +33,12 @@ static std::unique_ptr<ph::Element> read(picojson::value const& v, ph::Point con
             mult->lhs = read(obj.at("lhs"), next_position, mult.get());
             mult->rhs = read(obj.at("rhs"), next_position, mult.get());
             element = std::move(mult);
+        } else if (op == "if") {
+            auto if_ = std::make_unique<ph::Node<ph::NodeType::If>>(current_position);
+            if_->cond = read(obj.at("cond"), next_position, if_.get());
+            if_->true_ = read(obj.at("true"), next_position, if_.get());
+            if_->false_ = read(obj.at("false"), next_position, if_.get());
+            element = std::move(if_);
         } else if (op == "print") {
             auto print = std::make_unique<ph::Node<ph::NodeType::Print>>(current_position);
             print->val = read(obj.at("val"), next_position, print.get());

@@ -104,11 +104,25 @@ void add_element(
         if (print->val.get() == selected) {
             print->val = std::move(e);
             print->val->parent(print);
-        }
-        else
+        } else
             add_element(print->val, selected, e);
+    } else if (auto if_ = ph::node_cast<ph::NodeType::If>(ast.get())) {
+        if (if_->cond.get() == selected) {
+            if_->cond = std::move(e);
+            if_->cond->parent(if_);
+        } else
+            add_element(if_->cond, selected, e);
+        if (if_->true_.get() == selected) {
+            if_->true_ = std::move(e);
+            if_->true_->parent(if_);
+        } else
+            add_element(if_->true_, selected, e);
+        if (if_->false_.get() == selected) {
+            if_->false_ = std::move(e);
+            if_->false_->parent(if_);
+        } else
+            add_element(if_->false_, selected, e);
     }
-
 }
 
 std::unique_ptr<ph::Element> make_node(ph::Element const* selected) {
@@ -121,6 +135,8 @@ std::unique_ptr<ph::Element> make_node(ph::Element const* selected) {
         if (type == "mult")
             break;
         if (type == "print")
+            break;
+        if (type == "if")
             break;
         if (type == "number")
             break;
@@ -142,6 +158,16 @@ std::unique_ptr<ph::Element> make_node(ph::Element const* selected) {
         mult->lhs->parent(mult.get());
         mult->rhs->parent(mult.get());
         element = std::move(mult);
+    } else if (type == "if") {
+        auto pos = ph::Point::from_vec(selected->position());
+        auto if_ = std::make_unique<ph::Node<ph::NodeType::If>>(pos);
+        if_->cond = std::make_unique<ph::Undefined>(pos);
+        if_->true_ = std::make_unique<ph::Undefined>(pos);
+        if_->false_ = std::make_unique<ph::Undefined>(pos);
+        if_->cond->parent(if_.get());
+        if_->true_->parent(if_.get());
+        if_->false_->parent(if_.get());
+        element = std::move(if_);
     } else if (type == "print") {
         auto pos = ph::Point::from_vec(selected->position());
         auto print = std::make_unique<ph::Node<ph::NodeType::Print>>(pos);

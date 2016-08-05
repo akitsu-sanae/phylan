@@ -31,6 +31,13 @@ picojson::value ast_to_json(ph::Element const* e) {
         obj["op"] = picojson::value("print");
         obj["val"] = ast_to_json(print->val.get());
         return picojson::value(obj);
+    } else if (auto if_ = ph::node_cast<ph::NodeType::If>(e)) {
+        picojson::object obj;
+        obj["op"] = picojson::value("if");
+        obj["cond"] = ast_to_json(if_->cond.get());
+        obj["true"] = ast_to_json(if_->true_.get());
+        obj["false"] = ast_to_json(if_->false_.get());
+        return picojson::value(obj);
     } else if (dynamic_cast<ph::Undefined const*>(e)) {
         picojson::object obj;
         obj["op"] = picojson::value("undefined");

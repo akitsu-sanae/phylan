@@ -128,6 +128,37 @@ void ph::Node<ph::NodeType::Print>::update() {
     val->update();
 }
 
+void ph::Node<ph::NodeType::If>::draw() const {
+    btTransform trans;
+    m_body->getMotionState()->getWorldTransform(trans);
+    ph::graphics::draw_sphere(
+        ph::Point::from_trans(trans),
+        ph::graphics::Color{ 125, 0, 125 });
+    cond->draw();
+    true_->draw();
+    false_->draw();
+}
+
+void ph::Node<ph::NodeType::If>::regist(ph::World& world) {
+    world.dynamics_world()->addRigidBody(m_body);
+    cond->regist(world);
+    true_->regist(world);
+    false_->regist(world);
+}
+
+void ph::Node<ph::NodeType::If>::remove(ph::World& world) {
+    world.dynamics_world()->removeRigidBody(m_body);
+    cond->remove(world);
+    true_->remove(world);
+    false_->remove(world);
+}
+
+void ph::Node<ph::NodeType::If>::update() {
+    cond->update();
+    true_->update();
+    false_->update();
+}
+
 void ph::Literal::draw() const {
     btTransform trans;
     m_body->getMotionState()->getWorldTransform(trans);
