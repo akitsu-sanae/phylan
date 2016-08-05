@@ -20,15 +20,34 @@ void ph::World::mouse_event() {
         m_camera.move_target(m_mouse->diff()[0], m_mouse->diff()[1]);
 }
 
-void ph::World::key_event() {
-    if (m_keyboard->state(Key::Z) == KeyState::Push)
-        m_model->save();
-    if (m_keyboard->state(Key::X) == KeyState::Push) {
-        std::cout << "filename: ";
+static void command_mode(std::shared_ptr<ph::Model>& model, ph::World& world) {
+    std::string command;
+    while (true) {
+        std::cout << "command mode" << std::endl;
+        std::cout << "    load: import phylan program file(.ph)" << std::endl;
+        std::cout << "    save: export phylan program file(.ph)" << std::endl;
+        std::cout << "    edit: edit current node" << std::endl;
+        std::cin >> command;
+
+        if (command == "load" || command == "save" || command == "edit")
+            break;
+    }
+    if (command == "load") {
+        std::cout << "import filename: ";
         std::string filename;
         std::cin >> filename;
-        m_model = std::make_shared<Model>(*this, filename);
+        model = std::make_shared<ph::Model>(world, filename);
+    } else if (command == "save") {
+        model->save();
+    } else if (command == "edit") {
+        model->edit();
     }
+
+}
+
+void ph::World::key_event() {
+    if (m_keyboard->state(Key::C) == KeyState::Push)
+        command_mode(m_model, *this);
 
     if (m_keyboard->state(Key::J) == KeyState::Push)
         m_model->move(Model::Move::Next);
@@ -36,8 +55,5 @@ void ph::World::key_event() {
         m_model->move(Model::Move::Prev);
     if (m_keyboard->state(Key::I) == KeyState::Push)
         m_model->move(Model::Move::Parent);
-
-    if (m_keyboard->state(Key::Space) == KeyState::Push)
-        m_model->edit();
 }
 

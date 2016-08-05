@@ -51,7 +51,7 @@ picojson::value ast_to_json(ph::Element const* e) {
 
 void ph::Element::save() const {
     std::string filename;
-    std::cout << "filename? ";
+    std::cout << "filename: ";
     std::cin >> filename;
     std::ofstream output(filename);
 
