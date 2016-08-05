@@ -1,6 +1,11 @@
 # phylan
 物理演算を利用したビジュアルプログラミング言語
 
+# 説明
+2016年度筑波大学情報メディア創成の春季情報メディア実験という講義での成果物です.  
+授業が終わっても僕の関心が続く限りは開発を進めていくつもりです.  
+詳しい使い方は [こちら](document/index.md) を見てください
+
 # Copyright
 Copyright (C) 2016 akitsu sanae.  
 This sodtware is distributed under the Boost Software License, Version 1.0. 
