@@ -52,14 +52,17 @@ ph::Element::~Element() {
     delete m_body;
 }
 
-void ph::Node<ph::NodeType::Plus>::draw() const {
+void ph::Node<ph::NodeType::Plus>::draw(ph::Element const* selected) const {
     btTransform trans;
     m_body->getMotionState()->getWorldTransform(trans);
+    ph::graphics::Color color = {40, 190, 60};
+    if (this == selected)
+        color = color + ph::graphics::Color{40, 40, 40};
     ph::graphics::draw_sphere(
         ph::Point::from_trans(trans),
-        ph::graphics::Color{0, 0, 255});
-    lhs->draw();
-    rhs->draw();
+        color);
+    lhs->draw(selected);
+    rhs->draw(selected);
 }
 
 void ph::Node<ph::NodeType::Plus>::update() {
@@ -79,14 +82,17 @@ void ph::Node<ph::NodeType::Plus>::remove(ph::World& world) {
     rhs->remove(world);
 }
 
-void ph::Node<ph::NodeType::Mult>::draw() const {
+void ph::Node<ph::NodeType::Mult>::draw(ph::Element const* selected) const {
     btTransform trans;
     m_body->getMotionState()->getWorldTransform(trans);
+    ph::graphics::Color color = { 80, 100, 210 };
+    if (this == selected)
+        color = color + ph::graphics::Color{ 40, 40, 40 };
     ph::graphics::draw_sphere(
         ph::Point::from_trans(trans),
-        ph::graphics::Color{ 0, 255, 0 });
-    lhs->draw();
-    rhs->draw();
+        color);
+    lhs->draw(selected);
+    rhs->draw(selected);
 }
 
 void ph::Node<ph::NodeType::Mult>::regist(ph::World& world) {
@@ -105,13 +111,16 @@ void ph::Node<ph::NodeType::Mult>::update() {
     rhs->update();
 }
 
-void ph::Node<ph::NodeType::Print>::draw() const {
+void ph::Node<ph::NodeType::Print>::draw(ph::Element const* selected) const {
     btTransform trans;
     m_body->getMotionState()->getWorldTransform(trans);
+    ph::graphics::Color color = { 140, 80, 210 };
+    if (this == selected)
+        color = color + ph::graphics::Color{ 40, 40, 40 };
     ph::graphics::draw_sphere(
         ph::Point::from_trans(trans),
-        ph::graphics::Color{ 255, 0, 0 });
-    val->draw();
+        color);
+    val->draw(selected);
 }
 
 void ph::Node<ph::NodeType::Print>::regist(ph::World& world) {
@@ -128,15 +137,18 @@ void ph::Node<ph::NodeType::Print>::update() {
     val->update();
 }
 
-void ph::Node<ph::NodeType::If>::draw() const {
+void ph::Node<ph::NodeType::If>::draw(ph::Element const* selected) const {
     btTransform trans;
     m_body->getMotionState()->getWorldTransform(trans);
+    ph::graphics::Color color = { 210, 80, 80 };
+    if (this == selected)
+        color = color + ph::graphics::Color{ 40, 40, 40 };
     ph::graphics::draw_sphere(
         ph::Point::from_trans(trans),
-        ph::graphics::Color{ 125, 0, 125 });
-    cond->draw();
-    true_->draw();
-    false_->draw();
+        color);
+    cond->draw(selected);
+    true_->draw(selected);
+    false_->draw(selected);
 }
 
 void ph::Node<ph::NodeType::If>::regist(ph::World& world) {
@@ -159,12 +171,15 @@ void ph::Node<ph::NodeType::If>::update() {
     false_->update();
 }
 
-void ph::Literal::draw() const {
+void ph::Literal::draw(ph::Element const* selected) const {
     btTransform trans;
     m_body->getMotionState()->getWorldTransform(trans);
+    ph::graphics::Color color = { 210, 200, 80 };
+    if (this == selected)
+        color = color + ph::graphics::Color{ 40, 40, 40 };
     ph::graphics::draw_sphere(
         ph::Point::from_trans(trans),
-        ph::graphics::Color{ 255, 255, 255 });
+        color);
 }
 
 void ph::Literal::update() {
@@ -178,12 +193,15 @@ void ph::Literal::remove(ph::World& world) {
     world.dynamics_world()->removeRigidBody(m_body);
 }
 
-void ph::Undefined::draw() const {
+void ph::Undefined::draw(ph::Element const* selected) const {
     btTransform trans;
     m_body->getMotionState()->getWorldTransform(trans);
+    ph::graphics::Color color = { 40, 40, 40 };
+    if (this == selected)
+        color = color + ph::graphics::Color{ 40, 40, 40 };
     ph::graphics::draw_sphere(
         ph::Point::from_trans(trans),
-        ph::graphics::Color{ 0, 255, 255 });
+        color);
 }
 
 void ph::Undefined::regist(ph::World& world) {

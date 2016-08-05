@@ -8,6 +8,7 @@ file LICENSE or copy at http://www.boost.org/LICENSE_1_0.txt)
 #ifndef PHYLAN_GRAPHICS_HPP
 #define PHYLAN_GRAPHICS_HPP
 
+#include <algorithm>
 #include "utility.hpp"
 
 class btSoftBody;
@@ -20,6 +21,14 @@ struct Color {
     unsigned char g;
     unsigned char b;
 };
+
+inline static Color operator +(Color const& lhs, Color const& rhs) {
+    return Color{
+        std::min<unsigned char>(lhs.r + rhs.r, 255),
+        std::min<unsigned char>(lhs.g + rhs.g, 255),
+        std::min<unsigned char>(lhs.b + rhs.b, 255)
+    };
+}
 
 struct Edge {
     Point nodes[2];

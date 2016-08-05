@@ -35,7 +35,7 @@ public:
     virtual ~Element();
     virtual int value() const = 0;
 
-    virtual void draw() const = 0;
+    virtual void draw(Element const*) const = 0;
     virtual void update() = 0;
 
     virtual void regist(ph::World&) = 0;
@@ -77,7 +77,7 @@ struct Node<NodeType::Plus> final : public Element
         return lhs->value() + rhs->value();
     }
 
-    void draw() const override;
+    void draw(Element const*) const override;
     void update() override;
 
     void regist(ph::World&) override;
@@ -99,7 +99,7 @@ struct Node<NodeType::Mult> final : public Element
         return lhs->value() * rhs->value();
     }
 
-    void draw() const override;
+    void draw(Element const*) const override;
     void update() override;
 
     void regist(ph::World&) override;
@@ -122,7 +122,7 @@ struct Node<NodeType::Print> final : public Element
         return val->value();
     }
 
-    void draw() const override;
+    void draw(Element const*) const override;
     void update() override;
 
     void regist(ph::World&) override;
@@ -142,7 +142,7 @@ struct Node<NodeType::If> final : public Element
         else
             return false_->value();
     }
-    void draw() const override;
+    void draw(Element const*) const override;
     void update() override;
 
     void regist(ph::World&) override;
@@ -164,7 +164,7 @@ struct Literal : public Element {
         return val;
     }
 
-    void draw() const override;
+    void draw(Element const*) const override;
     void update() override;
 
     void regist(ph::World&) override;
@@ -181,7 +181,7 @@ struct Undefined : public Element {
         throw invalid_execution_exception{};
     }
 
-    void draw() const override;
+    void draw(Element const*) const override;
     void update() override {}
 
     void regist(ph::World&) override;

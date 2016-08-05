@@ -30,26 +30,10 @@ ph::Model::~Model() {
     m_ast->remove(m_world);
 }
 
-static void draw_cursor(ph::Element const* target) {
-    if (!target)
-        std::abort();
-    glPushMatrix();
-    auto pos = target->position();
-    glTranslated(pos.x(), pos.y(), pos.z());
-    glBegin(GL_LINE_STRIP);
-    for (int i = 0; i < 16; i++) {
-        double angle = 2.0*ph::PI<double>() * i / 16.0;
-        glVertex2d(std::cos(angle), std::sin(angle));
-    }
-    glEnd();
-    glPopMatrix();
-}
-
 void ph::Model::draw() const {
-    m_ast->draw();
+    m_ast->draw(m_selected_element);
     for (auto const& rope : m_ropes)
         rope->draw();
-    draw_cursor(m_selected_element);
 }
 
 void ph::Model::save() const {
